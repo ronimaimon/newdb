@@ -37,6 +37,7 @@ class UploaderController < ApplicationController
 	end
   	@subject_ids_map =Hash.new
 	@taskRunCount = 0
+	@bad_files = []
 	if(params[:item].nil? or params[:item][:attached_assets_attributes].nil?)
 		redirectError("Please select files to upload")
 		return
@@ -48,7 +49,9 @@ class UploaderController < ApplicationController
 			taskRun.SUBJECT_ID = getSubjectID(taskRun.SUBJECT_ID)
 			taskRun.save
 			@taskRunCount+=1
-	 	  end
+	 	  else
+			@bad_files << f[:asset].original_filename
+		  end
 		end
 	end
   end

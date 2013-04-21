@@ -10,18 +10,18 @@ module CombinedMeasure
       subjectMeasureMap["Search_task_score"] = calcSearchTaskScore(subjectMeasureMap);
       subjectMeasureMap["Search_task_score"] = calcSearchTaskScore(subjectMeasureMap);
       
-      subjectMeasureMap["PosnerTemporalCue_cost"] = calcPosnerCombinedMeasure(subjectMeasureMap,"Posner_Temporal_Cue","invalid","neutral");
-      subjectMeasureMap["PosnerTemporalCue_benefit"] = calcPosnerCombinedMeasure(subjectMeasureMap,"Posner_Temporal_Cue","neutral","valid");
-      subjectMeasureMap["PosnerTemporalCue_cost_left"] = calcPosnerCombinedMeasure(subjectMeasureMap,"Posner_Temporal_Cue","invalid_left_target","neutral_left_target");
-      subjectMeasureMap["PosnerTemporalCue_benefit_left"] = calcPosnerCombinedMeasure(subjectMeasureMap,"Posner_Temporal_Cue","neutral_left_target","valid_left_target");
-      subjectMeasureMap["PosnerTemporalCue_cost_right"] = calcPosnerCombinedMeasure(subjectMeasureMap,"Posner_Temporal_Cue","invalid_right_target","neutral_right_target");
-      subjectMeasureMap["PosnerTemporalCue_benefit_right"] = calcPosnerCombinedMeasure(subjectMeasureMap,"Posner_Temporal_Cue","neutral_right_target","valid_right_target");
+      subjectMeasureMap["PosnerTemporalCue_cost"] = calcPosnerCombinedMeasure(subjectMeasureMap,"PosnerTemporalCue","invalid","neutral");
+      subjectMeasureMap["PosnerTemporalCue_benefit"] = calcPosnerCombinedMeasure(subjectMeasureMap,"PosnerTemporalCue","neutral","valid");
+      subjectMeasureMap["PosnerTemporalCue_cost_left"] = calcPosnerCombinedMeasure(subjectMeasureMap,"PosnerTemporalCue","invalid_left_target","neutral_left_target");
+      subjectMeasureMap["PosnerTemporalCue_benefit_left"] = calcPosnerCombinedMeasure(subjectMeasureMap,"PosnerTemporalCue","neutral_left_target","valid_left_target");
+      subjectMeasureMap["PosnerTemporalCue_cost_right"] = calcPosnerCombinedMeasure(subjectMeasureMap,"PosnerTemporalCue","invalid_right_target","neutral_right_target");
+      subjectMeasureMap["PosnerTemporalCue_benefit_right"] = calcPosnerCombinedMeasure(subjectMeasureMap,"PosnerTemporalCue","neutral_right_target","valid_right_target");
       
-      subjectMeasureMap["PosnerTemporalCue_task_score"] = calcPosnerCombinedMeasure(subjectMeasureMap,"Posner_Temporal_Cue","invalid","valid");
+      subjectMeasureMap["PosnerTemporalCue_task_score"] = calcPosnerCombinedMeasure(subjectMeasureMap,"PosnerTemporalCue","invalid","valid");
       subjectMeasureMap["Posner_task_score"] = calcPosnerCombinedMeasure(subjectMeasureMap,"Posner","invalid","valid");
-      subjectMeasureMap["PosnerTemporalCue_task_score_left"] = calcPosnerCombinedMeasure(subjectMeasureMap,"Posner_Temporal_Cue","invalid_left_target","valid_left_target");
+      subjectMeasureMap["PosnerTemporalCue_task_score_left"] = calcPosnerCombinedMeasure(subjectMeasureMap,"PosnerTemporalCue","invalid_left_target","valid_left_target");
       subjectMeasureMap["Posner_task_score_left"] = calcPosnerCombinedMeasure(subjectMeasureMap,"Posner","invalid_left_target","valid_left_target");
-      subjectMeasureMap["PosnerTemporalCue_task_score_right"] = calcPosnerCombinedMeasure(subjectMeasureMap,"Posner_Temporal_Cue","invalid_right_target","valid_right_target");
+      subjectMeasureMap["PosnerTemporalCue_task_score_right"] = calcPosnerCombinedMeasure(subjectMeasureMap,"PosnerTemporalCue","invalid_right_target","valid_right_target");
       subjectMeasureMap["Posner_task_score_right"] = calcPosnerCombinedMeasure(subjectMeasureMap,"Posner","invalid_right_target","valid_right_target");
     end
    return measures
