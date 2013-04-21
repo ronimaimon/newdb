@@ -1,0 +1,46 @@
+<h1>Upload</h1><br />
+
+<table border=0>
+<%= form_tag({:action => :loading}, :multipart => true) do %>
+<tr> 
+	<th id="instructions">Add to an existing research:</th>
+</tr>
+<tr>
+  <td><%= label_tag(:r_name, "Search by Research Name:") %></td>
+  <td><%= text_field_tag(:r_name) %></td>
+</tr>
+<tr>
+	<th colspan="1"> Or </th>
+	<th/>
+</tr>
+<tr >
+  <th id="instructions">Create a new research:</th>
+</tr>
+<tr>
+  <td><%= label_tag(:new_r_name, "Research Name:") %></td>
+  <td><%= text_field_tag(:new_r_name) %></td>
+</tr>
+<tr>
+  <td><%= label_tag(:r_owner, "Research Owner:") %></td>
+  <td><%= text_field_tag(:r_owner) %></td>
+</tr>
+<tr>
+  <td><%= label_tag(:r_desc, "Research Description:") %></td>
+  <td><%= text_field_tag(:r_desc) %></td>
+</tr>
+<tr />
+<tr >
+<tr >
+  <th id="instructions">Select .ans files:</th>
+</tr>
+ <tr >
+  <td colspan=2><%= file_field_tag('ans_files', multiple: true, name: 'item[attached_assets_attributes][][asset]') %></td>
+</tr>
+<tr />
+<tr >
+    <td id="comment" colspan =3><%= submit_tag("Upload")%> Uploading multiple files may take a while.</td>
+
+</tr>
+<% end %>
+
+ </table>

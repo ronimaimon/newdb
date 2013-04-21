@@ -1,0 +1,22 @@
+
+<h1>Measure</h1>
+<br />
+<table border=0>
+<%= form_tag({:action => :measure, :format => :csv}) do %>
+<tr>
+  <td><%= label_tag(:r_id, "By Research ID:") %></td>
+  <td><%= text_field_tag(:r_id, params[:r_id])  %></td>
+</tr>
+<tr colspan=2>
+  <td>OR</td>
+</tr>
+<tr>
+  <td><%= label_tag(:subject_ids, "Search by Research Name:") %></td>
+  <td><%= text_field_tag(:r_name,  "#{@researches}" ) %></td>
+</tr>
+<tr colspan=2>
+    <td><%= submit_tag("Execute") %></td>
+</tr>
+<% end %>
+</table>
+<%=@name_to_r_hash.to_s %>

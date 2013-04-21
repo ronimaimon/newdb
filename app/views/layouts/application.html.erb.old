@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Attention Lab Statistics Services</title>
+
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+
+</head>
+
+<body class="home getsticky colorful">
+
+  <div class="container">
+
+    <nav class="navbar">
+      <div id="nav-wrapper">
+        <h1 id="brand-wrapper">
+          <a href="" id="brand">Attention Lab</a>
+        </h1>
+        <div class="nav-left">
+          <%= link_to 'Upload', uploader_index_path, :class => "nav-links" %>
+        </div>
+        <div class="nav-right">
+          <%= link_to 'Measures', measures_index_path, :class => "nav-links" %>
+        </div>
+      </div>
+    </nav>
+
+    <div id="site-frame"></div>
+
+    <div class="box-shape">
+
+    
+      <div id="content-wrapper" class="bordered">
+        <%= yield %>
+       
+      </div> <!-- END #content-wrapper -->
+
+    </div> <!-- END .box-shape -->
+
+
+    <footer>&copy; Bondfire Inc. All Rights Reserved.</footer>
+
+  </div>
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,29 @@
+<h1>Research:</h1>
+<br />
+
+<table border=0>
+<tr>
+<td><b>Id</b></td>
+<td><%= @research.RESEARCH_ID%></td>
+</tr>
+<tr>
+<td><b>Name</b></td>
+<td><%= @research.RESEARCH_NAME%></td>
+</tr>
+<tr>
+<td><b>Owner</b></td>
+<td><%= @research.RESEARCH_OWNER%></td>
+</tr>
+<tr>
+<td><b>Description</b></td>
+<td><%= @research.RESEARCH_DESCRIPTION%></td>
+</tr>
+<tr>
+<td><b>Uploaded Task Runs</b></td>
+<td><%= @taskRunCount%></td>
+</tr>
+</table>
+<br />
+<br />
+<%= link_to "<button>Measure</button>".html_safe, measures_index_path({'r_id' => @research.RESEARCH_ID}) %></td>
+

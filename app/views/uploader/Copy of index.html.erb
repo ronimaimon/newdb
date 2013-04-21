@@ -1,0 +1,18 @@
+
+<%= form_tag( :multipart => true, :class=>'upload_form', :id =>'upload_form',:remote => true, :html => {:multipart => 'true'}) do %>
+  <%= label_tag(:r_name, "Research Name:") %>
+  <%= text_field_tag(:r_name) %>
+  <br />
+  <%= label_tag(:r_owner, "Research Owner:") %>
+  <%= text_field_tag(:r_owner) %>
+  <br/>
+  <%= label_tag(:r_desc, "Research Description:") %>
+  <%= text_field_tag(:r_desc) %>
+  <br/>
+  <%= file_field_tag('ans_files', multiple: true, name: 'item[attached_assets_attributes][][asset]') %>
+  <br/>
+    <input type="submit" onclick="javascript:create()"/>		
+<% end %>
+<%= image_tag("loading-image.gif", hidden: true, id: "hidepic") %>
+<a href="#" onclick="javascript:create()"> foof </a>
+ 
