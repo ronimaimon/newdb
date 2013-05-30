@@ -1,5 +1,5 @@
 CREDENTIALS = {
-	"lab"							=>		"lab123!",
+	"lab"							=>		"allab",
 	"smeir"						=> 		"smeir123",
 	"ronimaimon" 			=> 		"ronimaimon123"
 }
