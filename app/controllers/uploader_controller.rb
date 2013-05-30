@@ -15,7 +15,7 @@ class UploaderController < ApplicationController
   def loading
   
   @research = nil
-  if (params["r_ex_name"] and !params["r_name"].blank?)
+  if (params["r_ex_name"] and !params["r_ex_name"].blank?)
 		name_id = params["r_ex_name"].split(":")
 		research_id = (params["r_ex_name"].split(":")[1])  if (name_id.size ==2)
 		@research = Research.find(research_id) if Research.exists?(research_id)
