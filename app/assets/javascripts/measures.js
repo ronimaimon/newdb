@@ -1,7 +1,7 @@
 
 $(document).ready(function(){
     // Below is the name of the textfield that will be autocomplete
-    $('#r_name').autocomplete({
+    $('.complete').autocomplete({
         // This shows the min length of charcters that must be 
         // typed before the autocomplete looks for a match.
                     minLength: 2,

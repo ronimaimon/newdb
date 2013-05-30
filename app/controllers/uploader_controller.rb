@@ -15,25 +15,20 @@ class UploaderController < ApplicationController
   def loading
   
   @research = nil
-  if (params["r_name"] and !params["r_name"].blank?)
-		name_id = params["r_name"].split(":")
-		research_id = (params["r_name"].split(":")[1])  if (name_id.size ==2)
+  if (params["r_ex_name"] and !params["r_name"].blank?)
+		name_id = params["r_ex_name"].split(":")
+		research_id = (params["r_ex_name"].split(":")[1])  if (name_id.size ==2)
 		@research = Research.find(research_id) if Research.exists?(research_id)
 		if(@research.nil?)
-			redirectError("Makr sure to select an existing research from the drop down list")
+			redirectError("Make sure to select an existing research from the drop down list")
 			return
 		end
-	else
-		if(params[:new_r_name] and !params[:new_r_name].blank? and params[:r_owner] and !params[:r_owner].blank?)
-			@research = Research.new
-			@research.RESEARCH_NAME = params[:new_r_name]
-			@research.RESEARCH_OWNER = params[:r_owner]
-			@research.RESEARCH_DESCRIPTION = params[:r_desc]
-			@research.save
-		else
-			redirectError("Make sure you filled all the research parameters")
-			return
-		end
+	else	
+  	@research = Research.new
+		@research.RESEARCH_NAME = params["r"][:name]
+		@research.RESEARCH_OWNER = params["r"][:owner]
+		@research.RESEARCH_DESCRIPTION = params["r"][:desc]
+		@research.save
 	end
   	@subject_ids_map =Hash.new
 	@taskRunCount = 0
@@ -45,7 +40,7 @@ class UploaderController < ApplicationController
 		params[:item][:attached_assets_attributes].each do |f|
 		 taskRun = @parser.parse(f[:asset].read,	f[:asset].original_filename)
 		  if(!taskRun.nil?)
-			taskRun.RESEARCH_ID = @research_id
+			taskRun.RESEARCH_ID = @research.RESEARCH_ID	
 			taskRun.SUBJECT_ID = getSubjectID(taskRun.SUBJECT_ID)
 			taskRun.save
 			@taskRunCount+=1

@@ -12,7 +12,7 @@
 </tr>
 <tr>
   <td><%= label_tag(:subject_ids, "Search by Research Name:") %></td>
-  <td><%= text_field_tag(:r_name,  "#{@researches}" ) %></td>
+  <td><%= text_field_tag(:r_name,  "#{@researches}",:class=>"complete" ) %></td>
 </tr>
 <tr colspan=2>
     <td><%= submit_tag("Execute") %></td>
