@@ -70,6 +70,9 @@ USE `trialdb`;
 DROP TABLE IF EXISTS `trialdb`.`v_acpt_data`;
 DROP VIEW IF EXISTS `trialdb`.`v_acpt_data` ;
 
+source 'init_computer_types.sql';
+source 'init_research_locations.sql';
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
