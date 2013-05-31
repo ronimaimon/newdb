@@ -20,7 +20,7 @@ class UploaderController < ApplicationController
 		research_id = (params["r_ex_name"].split(":")[1])  if (name_id.size ==2)
 		@research = Research.find(research_id) if Research.exists?(research_id)
 		if(@research.nil?)
-			redirectError("Make sure to select an existing research from the drop down list")
+			redirectError("Make sure you selected an existing research \nfrom the drop down list")
 			return
 		end
 	else	
@@ -28,6 +28,9 @@ class UploaderController < ApplicationController
 		@research.RESEARCH_NAME = params["r"][:name]
 		@research.RESEARCH_OWNER = params["r"][:owner]
 		@research.RESEARCH_DESCRIPTION = params["r"][:desc]
+		@research.RESEARCH_LOCATION_ID = params["r"][:loc]
+		@research.RESEARCH_COMPUTER_ID = params["r"][:comp]
+		@research.RESEARCH_COMPUTER_SIZE = params["r"][:comp_size]
 		@research.save
 	end
   	@subject_ids_map =Hash.new
