@@ -1,5 +1,4 @@
 require 'ans_parser'
-
 class UploaderController < ApplicationController
   
     
@@ -10,11 +9,13 @@ class UploaderController < ApplicationController
 	end
   
   def index
+    
   end
 
   def loading
   
   @research = nil
+  #replace with Utils.getRIDfromparams
   if (params["r_ex_name"] and !params["r_ex_name"].blank?)
 		name_id = params["r_ex_name"].split(":")
 		research_id = (params["r_ex_name"].split(":")[1])  if (name_id.size ==2)
@@ -36,6 +37,7 @@ class UploaderController < ApplicationController
   	@subject_ids_map =Hash.new
 	@taskRunCount = 0
 	@bad_files = []
+	@subjectsIdList=[]
 	if(params[:item].nil? or params[:item][:attached_assets_attributes].nil?)
 		redirectError("Please select files to upload")
 		return
@@ -46,6 +48,7 @@ class UploaderController < ApplicationController
 			taskRun.RESEARCH_ID = @research.RESEARCH_ID	
 			taskRun.SUBJECT_ID = getSubjectID(taskRun.SUBJECT_ID)
 			taskRun.save
+			@subjectsIdList << taskRun.SUBJECT_ID
 			@taskRunCount+=1
 	 	  else
 			@bad_files << f[:asset].original_filename
@@ -75,8 +78,8 @@ class UploaderController < ApplicationController
  end
  
  def redirectError(msg)
-	flash[:alert] = "Invalid form submission: #{msg}"
-	redirect_to :action => 'index'
+	flash.now[:alert] = "Invalid form submission: #{msg}"
+	render :index
  end
  
 end

@@ -9,6 +9,7 @@ class MeasuresController < ApplicationController
   def measure
     @subject_ids = nil # this feature is currently not in use
 	
+	#replace with Utils.getRIdFromParams
  	@research_id = (params["r_id"])
 	if (@research_id.nil? or @research_id.empty? )
 		name_id = params["r_name"].split(":")

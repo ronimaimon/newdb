@@ -1,0 +1,43 @@
+<h1>Update subjects</h1>
+
+<%= form_tag ({:action => :bulk_update_save, :method => :post})  do %>
+  <table class='table table-striped table-condensed'>
+    <thead>
+      <tr>
+        <th>Subject DB ID</th>
+        <th>Subject Identifier</th>
+        <th>Name</th>
+        <th>Gender</th>
+        <th>Age Group </th>
+        <th>Year of Birth</th>
+        <th>Control?</th>
+      </tr>
+    </thead>
+    <tbody>
+    	<tr class="fill all" style="outline: thin solid black;"> 
+    		<td> <strong>Fill all </strong> </td>
+    		<td> <label> N/A </label></td>
+    		<td> <label> N/A </label></td>
+    		<td> <label> N/A </label></td>
+    		<td>
+    			<%= select_tag "all_age" ,options_from_collection_for_select(AgeGroup.all,"AGE_GROUP_ID","NAME"),  include_blank: true, :class =>"all_age"  %>
+  			</td>
+    		<td>
+   				 <%= select_tag "all_year", options_for_select((1900..Time.now.year).to_a.reverse), :include_blank => {:year => "Select year"}, :class => "all_year" %>
+ 			</td>
+    		<td>
+    			<%= check_box_tag "all_control" %>
+  			</td>
+    		
+    	</tr>
+    	<tr> </tr>
+      <% @subjects.each do |subject| %>
+        <%= fields_for "subjects[]", subject do |f| %>
+          <%= render :partial => 'bulk_update_form_fields', :locals => {:f => f, :subject => subject} %>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+  <p><%= submit_tag "Update Subjects", :class => 'btn btn-success' %></p>
+<% end %>
+

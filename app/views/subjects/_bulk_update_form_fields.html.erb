@@ -1,0 +1,23 @@
+<tr>
+  <td>
+    <%= subject.SUBJECT_ID %>
+  </td>
+    <td>
+    <%= f.text_field :SUBJECT_IDENTIFIER %>
+  </td>
+  <td>
+    <%= f.text_field :SUBJECT_NAME %>
+  </td>
+  <td>
+    <%= f.select :GENDER,options_for_select(['F','M']) %>
+  </td>
+  <td>
+    <%= f.select :AGE_GROUP_ID ,AgeGroup.all.collect {|p| [ p.NAME, p.AGE_GROUP_ID ] }, { include_blank: true }, {:class => "age"} %>
+  </td>
+    <td>
+    <%= f.select :YEAR_OF_BIRTH, (1900..Time.now.year).to_a.reverse, {:include_blank => {:year => "Select year"}} ,{:class => "year"}%>
+  </td>
+    <td>
+    <%= f.check_box :CONTROL , :class => "control"%>
+  </td>
+</tr>
