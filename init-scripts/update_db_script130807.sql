@@ -25,6 +25,10 @@ DROP procedure IF EXISTS `trialdb`.`clean_calc1`;
 USE `trialdb`;
 DROP procedure IF EXISTS `trialdb`.`clean_calc`;
 
+
+source init_age_group.sql;
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+

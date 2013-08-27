@@ -1,5 +1,5 @@
 class Subject < ActiveRecord::Base
- self.table_name='T_SUBJECTS'
+ self.table_name='t_subjects'
  self.primary_key='SUBJECT_ID'
  
  attr_protected

@@ -21,7 +21,7 @@ group :assets do
 end
 
 # file uploading
-gem "jquery-rails", "2.3.0"
+gem 'jquery-rails', '=2.3.0'
 
 gem 'jquery-fileupload-rails'
 gem 'paperclip'

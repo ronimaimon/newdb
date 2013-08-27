@@ -1,5 +1,5 @@
 class TaskRun < ActiveRecord::Base
- self.table_name='T_TASK_RUN'
+ self.table_name='t_task_run'
  self.primary_key='TASK_RUN_ID'
   attr_protected
  has_many :trials, :foreign_key => 'TASK_RUN_ID', :primary_key => 'TASK_RUN_ID'
