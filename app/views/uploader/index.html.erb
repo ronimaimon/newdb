@@ -4,14 +4,10 @@
     <!--%= form_tag(:multipart => true,:name=>"upload_form",:onsubmit=>"return validateForm()") do %-->
 <%= form_tag({:action => :loading}, :multipart => true,:name=>"upload_form",:onsubmit=>"return validateForm()") do %>
 <tr> 
-	<th id="instructions">Add to an existing research:</th>
+	<th id="instructions"> 1. Add to an existing research:</th>
 </tr>
-<tr>
-  <td><%= label_tag(:r_ex_name, "Search by Research Name:") %></td>
-  <td><%= text_field_tag(:r_ex_name,nil,:class => "complete") %></td>
-</tr>
-<tr>
-	<th colspan="1"> Or </th>
+<%= render "shared/research" %>
+	<th colspan="1"> OR </th>
 	<th/>
 </tr>
 <tr >
@@ -44,7 +40,7 @@
 <tr />
 <tr >
 <tr >
-  <th id="instructions">Select .ans files:</th>
+  <th id="instructions">2. Select .ans files:</th>
 </tr>
  <tr >
   <td colspan=2><%= file_field_tag('ans_files', multiple: true, name: 'item[attached_assets_attributes][][asset]') %></td>

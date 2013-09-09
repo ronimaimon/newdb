@@ -2,18 +2,7 @@
 <br />
 <table border=0>
 <%= form_tag({:action => :bulk_update, :method => :get}) do %>
-<tr>
-  <td><%= label_tag("By Research ID:") %></td>
-  <td><%= text_field_tag(:r_id, params[:r_id])  %></td>
-</tr>
-<tr colspan=2>
-  <td>OR</td>
-</tr>
-<tr>
-  <td><%= label_tag("Search by Research Name:") %></td>
-  <td><%= text_field_tag(:r_name,  "#{@researches}",:class=>"complete" ) %></td>
-</tr>
-
+<%= render "shared/research" %>
 <tr colspan=2>
     <td><%= submit_tag("Execute") %></td>
 </tr>

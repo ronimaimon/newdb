@@ -14,9 +14,8 @@ class SubjectsController < ApplicationController
       @subjects =  Subject.find(params[:subjects_ids])
     else
       research_id = Utils.getRIdFromParams(params)
-      if(research_id)
-        research = Research.find(research_id) if Research.exists?(research_id)
-        puts research.task_runs.first.subject
+      research = Research.find_by_RESEARCH_ID(research_id)
+      if not research.nil?
         research.task_runs.each do |t|
           @subjects << t.subject if not @subjects.include?(t.subject)
         end
