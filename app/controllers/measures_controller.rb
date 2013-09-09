@@ -2,11 +2,17 @@ require 'sql_measure'
 require 'combined_measure'
 class MeasuresController < ApplicationController
   include CombinedMeasure
+  
+  # def initialize
+    # #
+  # end
+  
   def index
     
   end
 
   def measure
+    @measures = MeasureConfig.measureArray
     @subject_ids = nil # this feature is currently not in use
 	
 	#replace with Utils.getRIdFromParams
@@ -20,9 +26,10 @@ class MeasuresController < ApplicationController
 	  if (@research_id)
       sql_m = SQLMeasure.new(@research_id, @subject_ids)
 
-      MeasureConfig.formulaArray.each do |formula|
-        sql_m.add_formula!(formula)
+      @measures.each do |measure|
+        sql_m.add_formula!(measure)
       end
+      
 
       @result = ActiveRecord::Base.connection.exec_query(sql_m.get_sql)
     
@@ -43,7 +50,7 @@ class MeasuresController < ApplicationController
 				end
 			end
 		else 
-			flash[:alert] = "The research is empty."
+			flash.now[:alert] = "The research is empty."
 			redirect_to measures_index_path 
 		end
 		end

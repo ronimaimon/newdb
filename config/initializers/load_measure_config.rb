@@ -1,22 +1,17 @@
 require 'sql_measure'
 
 module MeasureConfig
-  file = File.read("config/measures_config.json")
-  @formulaArray = []
-  jsonArray = JSON.parse(file, {:symbolize_names => true})
-
-  jsonArray.each do |f|
-    f[:formulas].each do |one_formula|
-      f[:tasks].each do |task|
-        f_object = MeasureFormula.from_json one_formula
-        f_object.task_name = task
-		@formulaArray.push(f_object)
-	  end	
-	end
+  
+  @measureArray = []
+  Measure.find_each do |measure|
+    @measureArray << MeasureFormula.new(measure)
+  end
+  Task.find_each do |task|
+        @measureArray << SQLDateField.new(task.TASK_NAME)
   end
   
-  def self.formulaArray
-	@formulaArray
+  def self.measureArray
+	@measureArray 
   end
   
 end
