@@ -1,5 +1,8 @@
 .error, .alert, .notice, .success, .info {padding:0.8em;margin-bottom:1em;border:2px solid rgb(223, 131, 131);}
 .success {background:#e6efc2;color:#264409;border-color:#c6d880;}
+TR.separate-below TD,TR.separate-below TH {
+    border-bottom: 1em solid white; /* use the background colour of a cell here */
+}
 /*
 Design by Free CSS Templates
 http://www.freecsstemplates.org

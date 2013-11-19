@@ -28,14 +28,14 @@
 </tr>
 <tr>
 <td><b>Bad files</b></td>
-<td><%= @bad_files%></td>
+<td><%= simple_format(@bad_files)%></td>
 </tr>
 </table>
 <br />
 <br />
 
 
-<%= link_to "<button>Measure</button>".html_safe, measures_index_path({'r_id' => @research.RESEARCH_ID}) %>
+<%= link_to "<button>Measure</button>".html_safe, measures_index_path({'r_e_id' => @research.RESEARCH_ID}) %>
 
 <%= link_to "<button>Update Subjects' Details</button>".html_safe , subject_bulk_update_path({'subjects_ids' => @subjectsIdList})%>
 

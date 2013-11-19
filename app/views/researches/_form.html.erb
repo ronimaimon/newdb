@@ -1,0 +1,48 @@
+<%= form_for(@research) do |f| %>
+  <% if @research.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@research.errors.count, "error") %> prohibited this research from being saved:</h2>
+
+      <ul>
+      <% @research.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :RESEARCH_NAME %><br>
+    <%= f.text_field :RESEARCH_NAME %>
+  </div>
+  
+  <div class="field">
+    <%= f.label :RESEARCH_OWNER %><br>
+    <%= f.text_field :RESEARCH_OWNER %>
+  </div>
+  
+  <div class="field">
+    <%= f.label :RESEARCH_DESCRIPTION %><br>
+    <%= f.text_field :RESEARCH_DESCRIPTION %>
+  </div>
+  
+  <div class="field">
+    <%= f.label 'Location:' %><br>
+    <%= f.select :RESEARCH_LOCATION_ID ,ResearchLocation.all.collect {|p| [ p.LOCATION_NAME, p.RESEARCH_LOCATION_ID] }, { include_blank: true } %>
+  </div>
+  
+  <div class="field">
+    <%= f.label 'Computer Type:' %><br>
+    <%= f.select :RESEARCH_COMPUTER_ID ,ResearchComputer.all.collect {|p| [ p.COMPUTER_DESC, p.RESEARCH_COMPUTER_ID]}, { include_blank: true } %>
+  </div>
+  
+  <div class="field">
+    <%= f.label :RESEARCH_COMPUTER_SIZE %><br>
+    <%= f.text_field :RESEARCH_COMPUTER_SIZE %>
+  </div>
+  
+  
+    <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

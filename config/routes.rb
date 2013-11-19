@@ -1,10 +1,22 @@
 Newdb::Application.routes.draw do
 
+  resources :researches
+    resources :task_runs, :only => [ :destroy]
+   
+  get "utils/getvalue" 
+  get "utils/tags" => "utils#tags", :as => :tags
+
+
+  get "report/index"
+
+  post "report/report"
+  post "report/subjects"
+
   get "home/index"
 
-#  match "measures/index/:r_id" => :to => "measures#index", :method => "get"
+#  match "measures/index/:r_e_id" => :to => "measures#index", :method => "get"
   get "measures/index"  
-  get "measures/getvalue"  
+   
 
   post "measures/measure"
 
@@ -19,7 +31,6 @@ Newdb::Application.routes.draw do
   get "subjects/index"
   get "subjects/summary"
   get 'subjects/subjects-bulk-update' => 'subjects#bulk_update', :as => 'subject_bulk_update'
-  post 'subjects/subjects-bulk-update' => 'subjects#bulk_update', :as => 'subject_bulk_update'
   post 'subjects/subjects-bulk-update-save' => 'subjects#bulk_update_save', :as => 'subjects_bulk_update_save'
   # The priority is based upon order of creation:
   # first created -> highest priority.

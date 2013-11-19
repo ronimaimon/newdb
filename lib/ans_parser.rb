@@ -14,7 +14,7 @@ class AnsParser
 	def parse(fileContent, filename)
 		parser = nil
 		taskRun = TaskRun.new
-		taskRun.SUBJECT_ID = filename.split("_")[0]
+		taskRun.SUBJECT_IDENTIFIER = filename.split("_")[0]
 		case filename
 			when /.*_CPTi.ans/
 				parser = CptParser.new
@@ -43,15 +43,48 @@ class AnsParser
 			else
 				return nil
 		end
+		#non training trial count for validation
+		trial_count = 0
 		fileContent.each_line do |line|
 			if(line.match(/^[0-9].*/) != nil)
-				taskRun.trials.append(parser.parseTrial(line,taskRun))
+			  trial = parser.parseTrial(line,taskRun)
+			  if trial.BLOCK_NO != 0
+			    trial_count += 1
+			  end
+				taskRun.trials.append(trial)
 			end
 		end
 		if(taskRun.trials.size ==0)
-		  return nil
+		  raise "Task run is empty"
 		end
+		taskRunIncompleteCheck(taskRun,trial_count)  
+		
 		return taskRun
 		
 	end
+	
+	private
+	
+	 # Checks whether the task was completed to the full.
+	 # raises an exeption if the number of non training trials don't match the expected amount
+	def taskRunIncompleteCheck(task_run,trial_count)
+	  expected = 0
+	  case task_run.task.TASK_NAME
+  	  when "Search","StroopLike"
+  	    expected = 160
+  	  when "CPT","CPTi","ACPT"
+  	    expected = 320
+  	  when "Simple RT"
+  	    expected = 66
+  	  when "Posner"
+  	    expected = 180
+  	  when "PosnerTemporalCue"
+        expected = 168  
+  	  else
+	  end
+	  if (expected != trial_count)
+	    raise "The number of trials is: " + trial_count.to_s + " expected: " + expected.to_s
+ 	  end
+	end
+	
 end

@@ -6,12 +6,15 @@ module MeasureConfig
   Measure.find_each do |measure|
     @measureArray << MeasureFormula.new(measure)
   end
-  Task.find_each do |task|
-        @measureArray << SQLDateField.new(task.TASK_NAME)
-  end
+  
+  @presentationArray = MeasurePresentation.all  
   
   def self.measureArray
-	@measureArray 
+  @measureArray 
+  end
+
+  def self.presentationArray
+  @presentationArray 
   end
   
 end

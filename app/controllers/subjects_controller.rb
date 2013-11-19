@@ -26,15 +26,17 @@ class SubjectsController < ApplicationController
   def bulk_update_save
     
     result = Subject.update(params[:subjects].keys, params[:subjects].values).reject { |p| p.errors.empty? }
-    flash.now[:alert] = "Successfully updated the records"
-    render :index
    
-     if result.empty?
-       flash.now[:alert] = "Successfully updated the records"
-      render :index
+   respond_to do |format|
+      if result.empty?
+        format.html { redirect_to subjects_index_path, notice: 'Subjects were successfully updated.' }
+        format.json { head :no_content }
+
       else
-       flash[:error] = "Error occurred updating"  
-     end
+        format.html { render "bulk_update_save" }
+        format.json { render json: result.errors, status: :unprocessable_entity }
+      end
+    end
 
   end
   

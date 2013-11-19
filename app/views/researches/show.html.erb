@@ -1,0 +1,44 @@
+<p id="notice"><%= notice %></p>
+<h1>Research</h1>
+<br/>
+<table>
+<tr>
+<td><b>Id: </b></td>
+<td><%= @research.RESEARCH_ID%></td>
+</tr>
+<tr>
+<td><b>Name: </b></td>
+<td><%= @research.RESEARCH_NAME%></td>
+</tr>
+<tr>
+<td><b>Owner: </b></td>
+<td><%= @research.RESEARCH_OWNER%></td>
+</tr>
+<tr>
+<td><b>Description: </b></td>
+<td><%= @research.RESEARCH_DESCRIPTION%></td>
+</tr>
+<tr>
+<td><b>Location: </b></td>
+<td><%= @research.research_location.LOCATION_NAME unless @research.research_location.nil?%></td>
+</tr>
+<tr>
+<td><b> Computer: </b></td>
+<td><%= @research.research_computer.COMPUTER_DESC unless @research.research_computer.nil?%></td>
+</tr>
+<tr>
+<td><b> Computer Size: </b></td>
+<td><%= @research.RESEARCH_COMPUTER_SIZE%></td>
+</tr>
+<tr>
+<td><b> Task Run Count: </b></td>
+<td><%= @research.task_runs.count%></td>
+</tr>
+
+</table>
+<br />
+<br />
+
+
+<%= link_to 'Edit', edit_research_path(@research) %> |
+<%= link_to 'Back', researches_path %>

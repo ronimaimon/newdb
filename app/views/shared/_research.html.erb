@@ -1,11 +1,11 @@
 <tr>
-  <td><%= label_tag(:r_id, "By Research ID:") %></td>
-  <td><%= text_field_tag(:r_id, params[:r_id])  %></td>
+  <td><%= label_tag(:r_e_id, "By Research ID:") %></td>
+  <td><%= text_field_tag(:r_e_id, params[:r_e_id])  %></td>
 </tr>
 <tr colspan=2>
   <td>OR</td>
 </tr>
 <tr>
-  <td><%= label_tag(:subject_ids, "Search by Research Name:") %></td>
-  <td><%= text_field_tag(:r_name,  "#{@researches}",:class=>"complete" ) %></td>
+  <td><%= label_tag(:r_e_name, "Search by Research Name:") %></td>
+  <td><%= text_field_tag(:r_e_name,  "#{@researches}",:class=>"complete" ) %></td>
 </tr>

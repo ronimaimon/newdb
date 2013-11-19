@@ -1,7 +1,8 @@
+<p id="notice"><%= notice %></p>
 <h1>Update Subjects' Information</h1>
 <br />
 <table border=0>
-<%= form_tag({:action => :bulk_update, :method => :get}) do %>
+<%= form_tag({:action => :bulk_update}, :method => :get) do %>
 <%= render "shared/research" %>
 <tr colspan=2>
     <td><%= submit_tag("Execute") %></td>

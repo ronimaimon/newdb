@@ -67,17 +67,25 @@ class MeasureFormula < SQLFormula
   def get_formula
     f = ""
 
+    if(@measure.IS_EXTREME_MEASURE)
+      get_extreme_formula
+    else
+      get_normal_formula
+    end
+    
+  end
+  
+  
+  def get_normal_formula
+    f = "" 
+     
     f << @measure.FUNCTION.to_s
     f << "(CASE WHEN task_name = '#{@measure.task.TASK_NAME}'"
     f << " AND " << get_constant_condition
     f << " AND #{@measure.CONDITION}" if not @measure.CONDITION.nil?
     
-    if(@measure.IS_EXTREME_MEASURE)
-      f << " AND rt NOT BETWEEN lb_#{get_formula_full_name} AND ub_#{get_formula_full_name}"
-    else 
-      if (not @measure.STDEV_RANGE.nil?)
-        f << " AND rt BETWEEN lb_#{get_formula_full_name} AND ub_#{get_formula_full_name}"
-      end
+    if (not @measure.STDEV_RANGE.nil?)
+      f << " AND rt BETWEEN lb_#{get_formula_full_name} AND ub_#{get_formula_full_name}"
     end
     
     f << " THEN "
@@ -87,6 +95,28 @@ class MeasureFormula < SQLFormula
      
     return f
   end
+
+  def get_extreme_formula
+    f = "" 
+     
+    f << @measure.FUNCTION.to_s
+    f << "(CASE WHEN task_name = '#{@measure.task.TASK_NAME}'"
+    
+         f << " THEN CASE WHEN " << get_constant_condition
+         f << " AND #{@measure.CONDITION}" if not @measure.CONDITION.nil?
+    
+         f << " AND rt NOT BETWEEN lb_#{get_formula_full_name} AND ub_#{get_formula_full_name}"
+    
+         f << " THEN 1"
+         f << " ELSE 0"
+         f << " END"
+
+    f << " END)"
+    f << " AS #{get_formula_full_name}"
+     
+    return f
+  end
+
 
   def get_outliars_formula
     f = ""
@@ -142,7 +172,7 @@ class SQLMeasure
   end
 
   def get_measure_calculations
-    formulas = "sub.subject_identifier as AA_subject_identifier"    
+    formulas = "sub.subject_identifier"    
     @formulas.each do |f|
       formulas << ", \n"
       formulas << "       " << f.get_formula
@@ -169,7 +199,10 @@ class SQLMeasure
   end
 
   def population_conditions
-    pop_condition = "t.research_id IN (#{@research_id})"
+    pop_condition = ""
+    if (!@research_id.nil?)
+      pop_condition << " t.research_id IN (#{@research_id})"
+    end
     
     if (!@subject_ids.nil?)
       pop_condition << " AND t.subject_id IN (#{@subject_ids.to_s.tr("[","").tr("]","")})"
@@ -214,8 +247,33 @@ class SQLMeasure
     return query
   end
 
+  def get_presentation_layer(pArray)
+    presentation = ""
+    
+    presentation = "subject_identifier"
+    
+    pArray.each do |prs|
+      presentation << "      ," << prs.measure_source << " AS " << prs.display_name << "\n"
+    end
+    
+    presentation
+  end
 
-  def get_sql
+  # TODO: find a better way to do this
+  def get_sql(pArray)
+    query = ""
+    
+    query << "SELECT " << self.get_presentation_layer(pArray) << "\n"
+    query << "  FROM (" << "\n"
+    
+    query << self.get_inner_query
+    
+    query << ") i" << "\n"
+
+    query
+  end
+  
+  def get_inner_query
     query = ""
     
     query << "SELECT "       << self.get_measure_calculations << "\n"

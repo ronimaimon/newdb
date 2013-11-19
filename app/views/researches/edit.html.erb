@@ -1,0 +1,27 @@
+<h1>Editing research</h1>
+<br/>
+<%= render 'form' %>
+
+<div style="padding-left:10px;">
+	
+	<h3>Task Runs</h3>
+	<table>
+		<tr>
+			<td> Identifier </td>
+			<td> Task </td>
+			<td/>
+		</tr>
+  	<% @research.task_runs.each do |task_run| %>
+  	<tr>
+  	 <td><%= task_run.subject.SUBJECT_IDENTIFIER %> </td>
+  	 <td> <%= task_run.task.TASK_NAME %> </td>
+     <td><b><%= link_to 'Delete', task_run, method: :delete, data: { confirm: 'Are you sure?' } %></b></td> 
+  	</tr>
+	<% end %>
+</table>
+  	
+  </div>
+
+<br/>
+<%= link_to 'Show', @research %> |
+<%= link_to 'Back', researches_path %>

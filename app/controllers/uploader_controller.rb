@@ -1,4 +1,6 @@
 require 'ans_parser'
+require 'utils'
+include Utils
 class UploaderController < ApplicationController
   
     
@@ -15,11 +17,13 @@ class UploaderController < ApplicationController
   def loading  
     
     researchId = Utils.getRIdFromParams(params)
-    if not researchId.nil? and not Research.exists?(researchId) 
+    if not researchId.nil? and Research.exists?(researchId)
+      @research = Research.find_by_RESEARCH_ID(researchId) 
+    elsif params["r"][:name] == ""
       redirectError("Make sure you selected an existing research")
       return
     end  
-    @research = Research.find_by_RESEARCH_ID(researchId)
+    
   	
   	if  @research.nil?
     	@research = Research.new
@@ -34,22 +38,24 @@ class UploaderController < ApplicationController
   	end
     @subject_ids_map =Hash.new
   	@taskRunCount = 0
-  	@bad_files = []
+  	@bad_files = ""
   	@subjectsIdList=[]
   	if(params[:item].nil? or params[:item][:attached_assets_attributes].nil?)
   		redirectError("Please select files to upload")
   		return
   	else
   		params[:item][:attached_assets_attributes].each do |f|
-  		 taskRun = @parser.parse(f[:asset].read,	f[:asset].original_filename)
-  		  if(!taskRun.nil?)
-  			taskRun.RESEARCH_ID = @research.RESEARCH_ID 
-  			taskRun.SUBJECT_ID = getSubjectID(taskRun.SUBJECT_ID)
-  			taskRun.save
-  			@subjectsIdList << taskRun.SUBJECT_ID
-  			@taskRunCount+=1
-  	 	  else
-  			@bad_files << f[:asset].original_filename
+  		 begin
+  		    task_run = @parser.parse(f[:asset].read,	f[:asset].original_filename)
+            task_run.RESEARCH_ID = @research.RESEARCH_ID 
+            task_run.SUBJECT_ID = getSubjectID(task_run.SUBJECT_IDENTIFIER)
+            task_run.save
+            @subjectsIdList << task_run.SUBJECT_ID
+            @taskRunCount+=1
+     rescue ActiveRecord::RecordNotUnique => er
+         @bad_files << f[:asset].original_filename + ": Duplicate file\n"
+  		 rescue Exception => e  
+  		   @bad_files << f[:asset].original_filename + ": " + e.message + "\n"
   		  end
   		end
   	end
@@ -57,8 +63,8 @@ class UploaderController < ApplicationController
   
  private
  def getSubjectID(subjectIdentifier)
-   subjectID = @subject_ids_map[subjectIdentifier]
-   if((subjectID.nil?))
+   subject_id = @subject_ids_map[subjectIdentifier]
+   if((subject_id.nil?))
     subject = Subject.find(:last,:conditions => ["SUBJECT_IDENTIFIER = ?",subjectIdentifier])
     if(subject.nil?)
       if(subjectIdentifier.nil?)
@@ -69,10 +75,10 @@ class UploaderController < ApplicationController
       subject.save
 	  
     end
-    subjectID = subject.SUBJECT_ID
+    subject_id = subject.SUBJECT_ID
     @subject_ids_map[subjectIdentifier] = subject.SUBJECT_ID
    end
-   return subjectID
+   return subject_id
  end
  
  def redirectError(msg)

@@ -3,21 +3,27 @@
     <%= subject.SUBJECT_ID %>
   </td>
     <td>
-    <%= f.text_field :SUBJECT_IDENTIFIER %>
+    <%= f.text_field :SUBJECT_IDENTIFIER, :size=>15%>
   </td>
   <td>
-    <%= f.text_field :SUBJECT_NAME %>
+    <%= f.text_field :SUBJECT_NAME ,:size=>15%>
   </td>
   <td>
     <%= f.select :GENDER,options_for_select(['F','M']) %>
   </td>
   <td>
-    <%= f.select :AGE_GROUP_ID ,AgeGroup.all.collect {|p| [ p.NAME, p.AGE_GROUP_ID ] }, { include_blank: true }, {:class => "age"} %>
+    <%= f.select :AGE_GROUP_ID ,AgeGroup.all.collect {|p| [ p.NAME, p.AGE_GROUP_ID ] }.sort,{ include_blank: true },{:class => 'age_g'}%>
   </td>
     <td>
-    <%= f.select :YEAR_OF_BIRTH, (1900..Time.now.year).to_a.reverse, {:include_blank => {:year => "Select year"}} ,{:class => "year"}%>
+    <%= f.text_field :AGE, :size=>3,:class => 'age' %>
+  </td>
+  <td>
+    <%= f.select :DOMINANT_HAND,options_for_select(['L','R']),{ include_blank: true },{:class => "hand"} %>
   </td>
     <td>
     <%= f.check_box :CONTROL , :class => "control"%>
+  </td>
+    <td>
+    <%= f.text_field :tag_list, :class => "token_input tag", "data-url" => "utils/taglist.json", "data-pre" => subject.tags.collect{|t| {:id => t.NAME, :name => t.NAME }}.to_json %>
   </td>
 </tr>

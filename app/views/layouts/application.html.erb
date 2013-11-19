@@ -4,8 +4,8 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
   <title>Attention Lab Statistics Services</title>
 
-  <%= stylesheet_link_tag    "application", :media => "all" %>
-  <%= javascript_include_tag "application" %>
+  <%= stylesheet_link_tag    "application",  "token-input-facebook", :media => "all" %>
+  <%= javascript_include_tag "application" , "jquery.tokeninput"%>
   <%= csrf_meta_tags %>
 
 </head>
@@ -22,24 +22,24 @@
 				<li><%= link_to "Upload", uploader_index_path %></li>
 				<li><%= link_to "Measure", measures_index_path %></li>
 				<li><%= link_to "Subjects", subjects_index_path %></li>
+				<li><%= link_to "Manage", researches_path %></li>
 				<li><a href="#">Help</a></li>
 				<!--<li><a href="#">Contact</a></li>-->
 			</ul>
 		</div>
 	</div>
-	<div><img src="/assets/img03.png" width="1000" height="40" alt="" /></div>
+	<div>
+		<img src="/lab/assets/img03.png" width="1000" height="40" alt="" /></div>
 	</div>
 	<!-- end #header -->
 
 	<div id="page">
 		<div id="content">
-
+			<% if flash[:alert] %>
+				<div class="alert">	<%= flash[:alert] %></div>
+			<% end %>
 		        <%= yield %>
-				<% unless flash.empty? %>
-					<div class="alert">
-						<%= flash[:alert] %>
-					</div>
-				<% end %>
+				
 
 <!--				
 			<div class="post">
@@ -58,7 +58,7 @@
 		<!-- end #content -->
 		<div style="clear: both;">&nbsp;</div>
 	</div>
-	<div class="container"><img src="/assets/img03.png" width="1000" height="40" alt="" /></div>
+	<div class="container"><img src="/lab/assets/img03.png" width="1000" height="40" alt="" /></div>
 	<!-- end #page -->
 </div>
 <div id="footer-content"></div>

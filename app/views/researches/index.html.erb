@@ -1,0 +1,56 @@
+<h1>Search</h1>
+
+<table border=0>
+<%= form_tag({:action => :index}, :method => :get) do %>
+<tr>
+  <td><%= label_tag(:id, "By Research ID:") %></td>
+  <td><%= text_field_tag(:id, params[:id])  %></td>
+</tr>
+<tr colspan=2>
+  <td>OR</td>
+</tr>
+<tr>
+  <td><%= label_tag(:search_name, "By Research Name:") %></td>
+  <td><%= text_field_tag(:search_name, params[:search_name]) %></td>
+</tr>
+<tr colspan=2>
+    <td><%= submit_tag("Search") %></td>
+</tr>
+<% end %>
+<tr/>
+<tr> 
+	
+<td><%= link_to 'Show All', researches_path(:all => true) %></td>
+<td><%= link_to 'Clear', researches_path()%> </td>
+</tr>
+</table>
+
+
+<br/>
+<%if @researches.empty? and not params.empty? %>
+	<tr><td><b>No Results</b></td></tr>
+<%else%>
+<table>
+  <tr>
+  	<th>ID</th>
+  	<th>Name</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+  
+
+<% @researches.each do |research| %>
+  <tr>
+  	<td> <%= research.RESEARCH_ID %> </td>
+  	<td> <%= research.RESEARCH_NAME %> </td>
+    <td><%= link_to 'Show', research %></td>
+    <td><%= link_to 'Edit', edit_research_path(research) %></td>
+    <td><%= link_to 'Delete', research, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+
+</table>
+<br />
+<strong><%= will_paginate @researches %></strong>
+<%end%>

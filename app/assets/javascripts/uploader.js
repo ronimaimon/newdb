@@ -8,10 +8,10 @@ function validateForm()
 		return false;
 		}
 	
-	if(validateField("r_ex_name")){
+	if(validateField("r_e_name") || validateField("r_e_id")){
 		return true;
 	}
-	var formElements = ["r_name","r_owner","r_loc","r_comp"]
+	var formElements = ["r[name]","r[owner]","r[loc]","r[comp]"];
 
 	for (i = 0 ; i < formElements.length ; i++)
 	{
@@ -33,5 +33,5 @@ function validateField(field_name)
   {
   return false;
   }
-  return true
+  return true;
 }

@@ -14,8 +14,8 @@ development:
   reconnect: false
   database: trialdb
   pool: 5
-  username: root
-  password: "1234"
+  username: admin
+  password: "tau-lamp"
   host: 127.0.0.1
 
 # Warning: The database defined as "test" will be erased and

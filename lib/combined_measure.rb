@@ -2,27 +2,25 @@
 module CombinedMeasure
   def self.addCombinedMeasures(measures)
     measures.each do |subjectMeasureMap|
-      subjectMeasureMap["CPT_task_score"] = calcCPTTaskScore(subjectMeasureMap,"CPT");
-      subjectMeasureMap["CPTi_task_score"] = calcCPTTaskScore(subjectMeasureMap,"CPTi");
-      subjectMeasureMap["ACPT_task_score"] = calcCPTTaskScore(subjectMeasureMap,"ACPT");
-      subjectMeasureMap["StroopLike_combined_direction_incong"] = calcStroopLikeCombinedDirIncong(subjectMeasureMap);
-      subjectMeasureMap["StroopLike_task_score"] = calcStroopLikeTaskScore(subjectMeasureMap);
-      subjectMeasureMap["Search_task_score"] = calcSearchTaskScore(subjectMeasureMap);
-      subjectMeasureMap["Search_task_score"] = calcSearchTaskScore(subjectMeasureMap);
+      subjectMeasureMap["CPT_task_score_old"] = calcCPTTaskScore(subjectMeasureMap,"CPT");
+      subjectMeasureMap["CPTi_task_score_old"] = calcCPTTaskScore(subjectMeasureMap,"CPTi");
+      subjectMeasureMap["ACPT_task_score_old"] = calcCPTTaskScore(subjectMeasureMap,"ACPT");
+      subjectMeasureMap["StroopLike_task_score_old"] = calcStroopLikeTaskScore(subjectMeasureMap);
+      subjectMeasureMap["Search_task_score_old"] = calcSearchTaskScore(subjectMeasureMap);
       
-      subjectMeasureMap["PosnerTemporalCue_cost"] = calcPosnerCombinedMeasure(subjectMeasureMap,"PosnerTemporalCue","invalid","neutral");
-      subjectMeasureMap["PosnerTemporalCue_benefit"] = calcPosnerCombinedMeasure(subjectMeasureMap,"PosnerTemporalCue","neutral","valid");
-      subjectMeasureMap["PosnerTemporalCue_cost_left"] = calcPosnerCombinedMeasure(subjectMeasureMap,"PosnerTemporalCue","invalid_left_target","neutral_left_target");
-      subjectMeasureMap["PosnerTemporalCue_benefit_left"] = calcPosnerCombinedMeasure(subjectMeasureMap,"PosnerTemporalCue","neutral_left_target","valid_left_target");
-      subjectMeasureMap["PosnerTemporalCue_cost_right"] = calcPosnerCombinedMeasure(subjectMeasureMap,"PosnerTemporalCue","invalid_right_target","neutral_right_target");
-      subjectMeasureMap["PosnerTemporalCue_benefit_right"] = calcPosnerCombinedMeasure(subjectMeasureMap,"PosnerTemporalCue","neutral_right_target","valid_right_target");
+      subjectMeasureMap["PosnerTemporalCue_cost_old"] = calcPosnerCombinedMeasure(subjectMeasureMap,"PosnerTemporalCue","invalid","neutral");
+      subjectMeasureMap["PosnerTemporalCue_benefit_old"] = calcPosnerCombinedMeasure(subjectMeasureMap,"PosnerTemporalCue","neutral","valid");
+      subjectMeasureMap["PosnerTemporalCue_cost_left_old"] = calcPosnerCombinedMeasure(subjectMeasureMap,"PosnerTemporalCue","invalid_left_target","neutral_left_target");
+      subjectMeasureMap["PosnerTemporalCue_benefit_left_old"] = calcPosnerCombinedMeasure(subjectMeasureMap,"PosnerTemporalCue","neutral_left_target","valid_left_target");
+      subjectMeasureMap["PosnerTemporalCue_cost_right_old"] = calcPosnerCombinedMeasure(subjectMeasureMap,"PosnerTemporalCue","invalid_right_target","neutral_right_target");
+      subjectMeasureMap["PosnerTemporalCue_benefit_right_old"] = calcPosnerCombinedMeasure(subjectMeasureMap,"PosnerTemporalCue","neutral_right_target","valid_right_target");
       
-      subjectMeasureMap["PosnerTemporalCue_task_score"] = calcPosnerCombinedMeasure(subjectMeasureMap,"PosnerTemporalCue","invalid","valid");
-      subjectMeasureMap["Posner_task_score"] = calcPosnerCombinedMeasure(subjectMeasureMap,"Posner","invalid","valid");
-      subjectMeasureMap["PosnerTemporalCue_task_score_left"] = calcPosnerCombinedMeasure(subjectMeasureMap,"PosnerTemporalCue","invalid_left_target","valid_left_target");
-      subjectMeasureMap["Posner_task_score_left"] = calcPosnerCombinedMeasure(subjectMeasureMap,"Posner","invalid_left_target","valid_left_target");
-      subjectMeasureMap["PosnerTemporalCue_task_score_right"] = calcPosnerCombinedMeasure(subjectMeasureMap,"PosnerTemporalCue","invalid_right_target","valid_right_target");
-      subjectMeasureMap["Posner_task_score_right"] = calcPosnerCombinedMeasure(subjectMeasureMap,"Posner","invalid_right_target","valid_right_target");
+      subjectMeasureMap["PosnerTemporalCue_task_score_old"] = calcPosnerCombinedMeasure(subjectMeasureMap,"PosnerTemporalCue","invalid","valid");
+      subjectMeasureMap["Posner_task_score_old"] = calcPosnerCombinedMeasure(subjectMeasureMap,"Posner","invalid","valid");
+      subjectMeasureMap["PosnerTemporalCue_task_score_left_old"] = calcPosnerCombinedMeasure(subjectMeasureMap,"PosnerTemporalCue","invalid_left_target","valid_left_target");
+      subjectMeasureMap["Posner_task_score_left_old"] = calcPosnerCombinedMeasure(subjectMeasureMap,"Posner","invalid_left_target","valid_left_target");
+      subjectMeasureMap["PosnerTemporalCue_task_score_right_old"] = calcPosnerCombinedMeasure(subjectMeasureMap,"PosnerTemporalCue","invalid_right_target","valid_right_target");
+      subjectMeasureMap["Posner_task_score_right_old"] = calcPosnerCombinedMeasure(subjectMeasureMap,"Posner","invalid_right_target","valid_right_target");
     end
    return measures
   end
@@ -42,10 +40,11 @@ module CombinedMeasure
   end
 
   def self.calcCPTTaskScore(measureResultsMap,taskName)
-    std_rt_clean_3std = measureResultsMap[taskName+"_std_rt_clean"]
-    avg_rt_clean_2std = measureResultsMap[taskName+"_avg_rt_2std_clean"]
+    std_rt_clean_3std = measureResultsMap[taskName+"_std_rt_3std_clean"]
+    avg_rt_clean_3std = measureResultsMap[taskName+"_avg_rt_3std_clean"]
+    
     begin
-    result =  std_rt_clean_3std / avg_rt_clean_2std
+      result =  std_rt_clean_3std / avg_rt_clean_3std
     rescue
       return nil
     else
@@ -95,20 +94,6 @@ module CombinedMeasure
     end
   end
 
-  def self.calcStroopLikeCombinedDirIncong(measureResultsMap)
-    avg_rt = measureResultsMap["StroopLike_avg_rt_direction_incong"];
-    acc = measureResultsMap["StroopLike_acc_rate_direction_incong"];
-    if acc==0
-    return 0.0;
-    end
-    begin
-      result = avg_rt/acc
-    rescue
-      return nil
-    else
-      return result
-    end
-  end
 
   def self.calcStroopLikeTaskScore(measureResultsMap)
     rtDirInc = measureResultsMap["StroopLike_avg_rt_direction_incong"];

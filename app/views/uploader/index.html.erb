@@ -27,11 +27,11 @@
 </tr>
 <tr>
 	<td><%= label_tag(:r_loc, "Research Location*:") %></td>
-	<td><%= select("r","loc",[["TAU Lab",1],["Har-Hazofim Lab",2], ["Open University Lab",3],["Field",4]],{ :include_blank => false ,:selected => :option })  %></td>
+	<td><%= select("r","loc",ResearchLocation.all.collect {|p| [ p.LOCATION_NAME, p.RESEARCH_LOCATION_ID]},{ :include_blank => false ,:selected => :option })  %></td>
 </tr>
 <tr>
 	<td><%= label_tag(:r_comp, "Computer type*:") %></td>
-	<td><%= select("r","comp",[["Desktop",1],["Laptop",2]],{ :include_blank => false,:selected => :option })  %></td>
+	<td><%= select("r","comp",ResearchComputer.all.collect {|p| [ p.COMPUTER_DESC, p.RESEARCH_COMPUTER_ID] },{ :include_blank => false,:selected => :option })  %></td>
 </tr>
 <tr>
 	<td><%= label_tag(:r_comp_size, "Computer Size in inch:") %></td>
