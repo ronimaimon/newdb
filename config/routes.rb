@@ -30,10 +30,9 @@ Newdb::Application.routes.draw do
 
   get "subjects/index"
   get "subjects/summary"
+  get "subjects/create_new"
   get 'subjects/subjects-bulk-update' => 'subjects#bulk_update', :as => 'subject_bulk_update'
   post 'subjects/subjects-bulk-update-save' => 'subjects#bulk_update_save', :as => 'subjects_bulk_update_save'
-  # The priority is based upon order of creation:
-  # first created -> highest priority.
 
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'
