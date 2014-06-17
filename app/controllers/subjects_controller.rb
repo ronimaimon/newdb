@@ -12,6 +12,7 @@ class SubjectsController < ApplicationController
     @subjects = []
     if(not params[:subjects_ids].nil? and not params[:subjects_ids].empty?)
       @subjects =  Subject.find(params[:subjects_ids])
+      @research_id = params[:r_id]
     else
       @research_id = Utils.getRIdFromParams(params)
       research = Research.find_by_RESEARCH_ID(@research_id)
@@ -54,6 +55,6 @@ class SubjectsController < ApplicationController
     subject_id = subject.SUBJECT_ID 
     sql = "UPDATE t_task_run SET subject_id = #{subject_id} WHERE research_id = #{research_id} AND subject_id = #{old_subject}"
     ActiveRecord::Base.connection.execute(sql);
-    redirect_to :back
+    redirect_to action: "bulk_update", 'r_e_id' => research_id
   end
 end
