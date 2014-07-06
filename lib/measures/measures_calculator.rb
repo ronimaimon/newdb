@@ -3,20 +3,22 @@ module MeasuresCalculator
 
   def self.calculateAllMeasuresForReaserch(research_id, subject_ids=nil)
     measures = MeasureConfig.measureArray
-        sql_m = SQLMeasure.new(research_id, subject_ids)
-          measures.each do |measure|
-          sql_m.add_formula!(measure)
-        end
+    sql_m = SQLMeasure.new(research_id, subject_ids)
+    measures.each do |measure|
+      sql_m.add_formula!(measure)
+    end
         
-        # fh = File.open("query.log", "w")
-         # TODO: Find a better way to hold the presentation Array and pass to class
-        # fh.write(sql_m.get_sql(MeasureConfig.presentationArray))
-        # fh.close()
-#  
-        # TODO: Find a better way to hold the presentation Array and pass to class       
-        result = ActiveRecord::Base.connection.exec_query(sql_m.get_sql(MeasureConfig.presentationArray))
-        
-        result
+    result = nil
+    sql_m.get_sql(MeasureConfig.presentationArray).each do |query|
+    # fh.write(query << "\n\n")
+        result = ActiveRecord::Base.connection.execute(query)
+    #  fh.write(query << "finished")
+    end
+
+    #   fh.close()
+    result = ActiveRecord::Result.new(result.fields, result.to_a)
+
+    result
   
    end
 end

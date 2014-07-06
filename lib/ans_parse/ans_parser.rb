@@ -74,7 +74,7 @@ class AnsParser
   	    expected = 160
   	  when "CPT","CPTi","ACPT"
   	    expected = 320
-  	  when "Simple RT"
+  	  when "SimpleRT"
   	    expected = 66
   	  when "Posner"
   	    expected = 180

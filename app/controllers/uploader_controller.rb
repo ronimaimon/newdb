@@ -37,7 +37,7 @@ class UploaderController < ApplicationController
   	end
     
     #Parse and upload task_runs
-    @subject_ids_map =Hash.new
+    @subject_ids_map = Hash[Subject.find_all_by_SUBJECT_ID(TaskRun.select(:subject_id).uniq.where(research_id:@research.RESEARCH_ID).map(&:subject_id)).map{|s| [s.SUBJECT_IDENTIFIER,s.SUBJECT_ID]}]
   	@task_run_count = 0
   	@bad_files = ""
   	@subjects_id_list=[]
@@ -69,18 +69,18 @@ class UploaderController < ApplicationController
    
    #Check if the identifier exists in the db
    if((subject_id.nil?))
-      subject = Subject.find(:last,:conditions => ["SUBJECT_IDENTIFIER = ?",subjectIdentifier])
+    #  subject = Subject.find(:last,:conditions => ["SUBJECT_IDENTIFIER = ?",subjectIdentifier])
    
       #Create a new Subject
-      if(subject.nil?)
+  #    if(subject.nil?)
           if(subjectIdentifier.nil?)
             raise "subjectidentifier is null"
-          end
+         end
           subject = Subject.new
           subject.SUBJECT_IDENTIFIER = subjectIdentifier
           subject.save
 	  
-      end
+      # end
       subject_id = subject.SUBJECT_ID
       @subject_ids_map[subjectIdentifier] = subject.SUBJECT_ID
    end
