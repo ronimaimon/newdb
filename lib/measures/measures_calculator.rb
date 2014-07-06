@@ -1,7 +1,5 @@
-require 'sql_measure'
-require 'combined_measure'
+require 'measures/sql_measure'
 module MeasuresCalculator
-  include CombinedMeasure
 
   def self.calculateAllMeasuresForReaserch(research_id, subject_ids=nil)
     measures = MeasureConfig.measureArray
