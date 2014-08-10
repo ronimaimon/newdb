@@ -1,6 +1,6 @@
 CREDENTIALS = {
 	"lab"							=>		"allab",
 	"uploader"        =>    "oldies",
-	"smeir"						=> 		"smeir123",
+	"admin"						=> 		"lilachal",
 	"ronimaimon" 			=> 		"ronimaimon123"
 }
