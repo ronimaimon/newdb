@@ -1,6 +1,6 @@
 require 'utils'
 include Utils
-class SubjectsController < ApplicationController
+class SubjectsController < AdminController
   
   
   def index

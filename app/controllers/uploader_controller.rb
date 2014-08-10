@@ -1,7 +1,7 @@
 require 'ans_parse/ans_parser'
 require 'utils'
 include Utils
-class UploaderController < ApplicationController
+class UploaderController < AdminController
   
     
 	def initialize
