@@ -4,8 +4,7 @@ class PosnerTCParser < Parser
 	def initialize
 	end
 
-	def parseTrial(trial_line,taskRun)
-		trial = Trial.new
+	def parseTrial(trial, trial_line,taskRun)
 		values = trial_line.split(",")
 		# => 0		1		2	3		4		5				6		7				8	  9		10		11
 		#BlockID, StepID, Date, ID, StationID, Stimulus, StimulusLoc, PreCueLoc, Validity, Input, Accuracy, RT 

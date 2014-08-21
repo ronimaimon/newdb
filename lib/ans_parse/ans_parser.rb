@@ -11,9 +11,14 @@ class AnsParser
 	def initialize
 	end
 	
-	def parse(file_content, filename)
+	def parse(file_content, filename,is_temp=false)
 		parser = nil
-		task_run = TaskRun.new
+    puts '***************************************************************************'
+    if(is_temp)
+      task_run = TempTaskRun.new
+     else
+      task_run = TaskRun.new
+    end
 		task_run.SUBJECT_IDENTIFIER = filename.split("_")[0]
 		case filename
 			when /.*_CPTi.ans/
@@ -47,10 +52,16 @@ class AnsParser
 		trial_count = 0
 		file_content.each_line do |line|
 			if(line.match(/^[0-9].*/) != nil)
-			  trial = parser.parseTrial(line,task_run)
-			  if trial.BLOCK_NO != 0
+        if(is_temp)
+          trial = TempTrial.new
+        else
+          trial = Trial.new
+        end
+        trial = parser.parseTrial(trial,line,task_run)
+        if trial.BLOCK_NO != 0
 			    trial_count += 1
-			  end
+        end
+        puts ' ***************************************************************************'
 				task_run.trials.append(trial)
 			end
 		end

@@ -59,22 +59,24 @@ class UploaderController < AdminController
   		   @bad_files << f[:asset].original_filename + ": " + e.message + "\n"
   		  end
       end
-      keys = []
-      hashes = []
-  		CSV.parse(params[:subjects_data].read ,headers: true).each do |row|
-  		  new_hash = {}
-        row.to_hash.each_pair do |k,v|
-          new_hash.merge!({k => v}) unless k.nil?
+      unless params[:subjects_data].nil?
+        keys = []
+        hashes = []
+        CSV.parse(params[:subjects_data].read, headers: true).each do |row|
+          new_hash = {}
+          row.to_hash.each_pair do |k, v|
+            new_hash.merge!({k => v}) unless k.nil?
+          end
+          unless @subject_ids_map[new_hash['SUBJECT_IDENTIFIER']].nil?
+            subject_id = @subject_ids_map[new_hash['SUBJECT_IDENTIFIER']]
+            keys << subject_id
+            hashes << new_hash
+          end
         end
-        unless @subject_ids_map[new_hash['SUBJECT_IDENTIFIER']].nil?
-        subject_id = @subject_ids_map[new_hash['SUBJECT_IDENTIFIER']]
-        keys << subject_id
-        hashes << new_hash
-        end
+        puts keys
+        puts hashes
+        Subject.update(keys, hashes)
       end
-      puts keys
-      puts hashes
-      Subject.update(keys,hashes)
     end
   end
   
