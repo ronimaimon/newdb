@@ -125,10 +125,11 @@ class SQLMeasure
   MAX_RT_LIMIT = "4000"
   MIN_RT_LIMIT = "100"
 
-  def initialize(research_id, subject_ids=nil)
+  def initialize(research_id, table_prefix = 't', subject_ids=nil)
     @formulas = []
     @subject_ids = subject_ids
     @research_id = research_id
+    @table_prefix = table_prefix
   end
   
   def add_formula!(f)
@@ -150,30 +151,30 @@ class SQLMeasure
   def get_sources(prefix="")
     sources = ""
     
-    sources << "t_task_run t\n"
+    sources << "#{@table_prefix}_task_run t\n"
     sources << prefix << " INNER JOIN t_tasks s ON (s.task_id = t.task_id)\n"
-    sources << prefix << " INNER JOIN t_trial l ON (l.task_run_id = t.task_run_id)\n"
-    sources << prefix << " INNER JOIN t_subjects sub ON (sub.subject_id = t.subject_id)\n"
+    sources << prefix << " INNER JOIN #{@table_prefix}_trial l ON (l.task_run_id = t.task_run_id)\n"
+    sources << prefix << " INNER JOIN #{@table_prefix}_subjects sub ON (sub.subject_id = t.subject_id)\n"
     sources << prefix << "  LEFT JOIN (SELECT location_id, location_description AS stimulus_location_desc FROM t_locations) sloc ON (l.stimulus_location = sloc.location_id) \n"
     sources << prefix << "  LEFT JOIN (SELECT location_id, location_description AS precue_location_desc FROM t_locations) ploc ON (l.precue_location = ploc.location_id) \n"
     sources << prefix << "  LEFT JOIN t_stimuli st ON (l.stimulus_id = st.stimulus_id)\n"
     sources << prefix << "  LEFT JOIN t_trial_instructions ti ON (l.trial_instructions = ti.trial_instruction_id)\n"
-    sources << prefix << " INNER JOIN (SELECT subject_id, task_id, MAX(task_run_id) AS last_task FROM t_task_run WHERE research_id IN (#{@research_id}) GROUP BY subject_id, task_id) n ON (n.subject_id = t.subject_id AND n.task_id = t.task_id AND n.last_task = t.task_run_id)"
+    sources << prefix << " INNER JOIN (SELECT subject_id, task_id, MAX(task_run_id) AS last_task FROM #{@table_prefix}_task_run WHERE research_id IN (#{@research_id}) GROUP BY subject_id, task_id) n ON (n.subject_id = t.subject_id AND n.task_id = t.task_id AND n.last_task = t.task_run_id)"
     
-    return sources
+     sources
   end
 
   def population_conditions
     pop_condition = ""
-    if (!@research_id.nil?)
+    if  !@research_id.nil?
       pop_condition << " t.research_id IN (#{@research_id})"
     end
     
-    if (!@subject_ids.nil?)
+    if !@subject_ids.nil?
       pop_condition << " AND t.subject_id IN (#{@subject_ids.to_s.tr("[","").tr("]","")})"
     end
     
-    return pop_condition
+     pop_condition
   end
 
   def get_grouping_fields
@@ -194,7 +195,7 @@ class SQLMeasure
       end
     end
 
-    return formulas
+    formulas
   end
 
   def get_outliars_query
@@ -206,7 +207,7 @@ class SQLMeasure
     query << "              WHERE "       << self.population_conditions         << "\n"
     query << "              GROUP BY "    << self.get_grouping_fields           << ""
 
-    return query
+    query
   end
 
   def create_ourliars_temp_table
@@ -217,7 +218,7 @@ class SQLMeasure
     statement << get_outliars_query
     statement << ");"
     
-    return statement
+    statement
   end
 
   def get_presentation_layer(pArray)
@@ -260,7 +261,7 @@ class SQLMeasure
     query << " WHERE "               << self.population_conditions << "\n"
     query << " GROUP BY "            << self.get_grouping_fields << "\n"
 
-    return query
+    query
   end
 
   def create_inner_temp_table()
@@ -271,7 +272,7 @@ class SQLMeasure
     statement << self.get_inner_query
     statement << ");"
 
-    return statement
+    statement
   end
 
   def get_sql(pArray)
@@ -292,6 +293,6 @@ class SQLMeasure
     
     statements << query
     
-    return statements
+    statements
   end
 end

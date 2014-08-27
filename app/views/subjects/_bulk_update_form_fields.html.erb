@@ -9,7 +9,7 @@
     <%= f.text_field :SUBJECT_NAME ,:size=>15%>
   </td>
   <td>
-    <%= f.select :GENDER,options_for_select(['F','M']) %>
+    <%= f.select :GENDER ,[['F','F'],['M','M']],{ include_blank: true } %>
   </td>
   <td>
     <%= f.select :AGE_GROUP_ID ,AgeGroup.all.collect {|p| [ p.NAME, p.AGE_GROUP_ID ] }.sort,{ include_blank: true },{:class => 'age_g'}%>
@@ -18,13 +18,13 @@
     <%= f.text_field :AGE, :size=>3,:class => 'age' %>
   </td>
   <td>
-    <%= f.select :DOMINANT_HAND,options_for_select(['L','R']),{ include_blank: true },{:class => "hand"} %>
+    <%= f.select :DOMINANT_HAND,[['L','L'],['R','R']],{ include_blank: true },{:class => "hand"} %>
   </td>
     <td>
     <%= f.check_box :CONTROL , :class => "control"%>
   </td>
     <td>
-    <%= f.text_field :tag_list, :class => "token_input tag", "data-url" => "utils/taglist.json", "data-pre" => subject.tags.collect{|t| {:id => t.NAME, :name => t.NAME }}.to_json %>
+    <%= f.text_field :tag_list, :class => "token_input tag", "data-url" => "utils/taglist.json", "data-pre" => subject.tag_list.split(",").collect{|t| {:id => t, :name => t }}.to_json %>
   </td>
   <td>
   	 <td><b><%= link_to 'Create New', subjects_create_new_path(:research_id => @research_id, :subject_id => subject.SUBJECT_ID,:subject_identifier =>subject.SUBJECT_IDENTIFIER) ,data: { confirm: 'Are you sure?' }%></b></td> 

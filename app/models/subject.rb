@@ -8,11 +8,8 @@ class Subject < ActiveRecord::Base
  #has_and_belongs_to_many :tags , :join_table => 't_subjects_tags'
  
  has_many :taggings
- has_many :tags, through: :taggings
-  
- def self.tagged_with(name)
-    Tag.find_by_NAME!(name).articles
-  end
+ has_many :tags, :select => "#{Tag.table_name}.*, #{Tagging.table_name}.value AS value" , through: :taggings
+
 
   def self.tag_counts
     Tag.select("tags.*, count(taggings.TAG_ID) as count").
@@ -20,12 +17,22 @@ class Subject < ActiveRecord::Base
   end
   
   def tag_list
-    tags.map(&:NAME).join(", ")
+    tags.reload.map{|n| n.value.nil? ? n.NAME: n.NAME+'='+ n.value}.join(", ")
   end
-  
-  def tag_list=(names)
-    self.tags = names.split(",").map do |n|
-      Tag.where(NAME: n.strip).first_or_create!
-    end
-  end
+
+ def tag_list=(names)
+   self.tags.destroy_all
+   unless names.nil?
+     names.split(",").map do |n|
+       if n.include?('=')
+         tag_name, tag_value = n.split('=')
+         tag = Tag.where(NAME: tag_name.strip).first_or_create!
+         self.taggings.create(TAG_ID: tag.TAG_ID, value: tag_value.strip)
+       else
+         tag = Tag.where(NAME: n.strip).first_or_create!
+         self.taggings.create(TAG_ID: tag.TAG_ID)
+       end
+     end
+   end
+ end
 end

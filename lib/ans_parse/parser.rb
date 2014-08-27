@@ -1,5 +1,5 @@
 class Parser
-	def parseTrial(trial_line,task_run)
+	def parseTrial(trial, trial_line,task_run)
 	end
 
 	

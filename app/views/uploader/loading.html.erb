@@ -37,5 +37,5 @@
 
 <%= link_to "<button>Measure</button>".html_safe, measures_index_path({'r_e_id' => @research.RESEARCH_ID}) %>
 
-<%= link_to "<button>Update Subjects' Details</button>".html_safe , subject_bulk_update_path(:subjects_ids => @subjects_id_list,'r_id' => @research.RESEARCH_ID)%>
+<%= link_to "<button>Update Subjects' Details</button>".html_safe , subject_bulk_update_path('r_e_id' => @research.RESEARCH_ID)%>
 

@@ -18,7 +18,7 @@ class MeasuresController < ApplicationController
 
 	  if (research_id)
 	     
-      @result = MeasuresCalculator.calculateAllMeasuresForReaserch(research_id)
+      @result = MeasuresCalculator.calculateAllMeasuresForResearch(research_id,"t")
     
 		  if @result.first
 			respond_to do |format|

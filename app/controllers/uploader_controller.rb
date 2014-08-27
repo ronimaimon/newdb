@@ -1,7 +1,7 @@
 require 'ans_parse/ans_parser'
 require 'utils'
 include Utils
-class UploaderController < ApplicationController
+class UploaderController < AdminController
   
     
 	def initialize
@@ -37,11 +37,11 @@ class UploaderController < ApplicationController
   	end
     
     #Parse and upload task_runs
-    @subject_ids_map =Hash.new
+    @subject_ids_map = Hash[Subject.find_all_by_SUBJECT_ID(TaskRun.select(:subject_id).uniq.where(research_id:@research.RESEARCH_ID).map(&:subject_id)).map{|s| [s.SUBJECT_IDENTIFIER,s.SUBJECT_ID]}]
   	@task_run_count = 0
   	@bad_files = ""
   	@subjects_id_list=[]
-  	if(params[:item].nil? or params[:item][:attached_assets_attributes].nil?)
+  	if((params[:item].nil?) or params[:item][:attached_assets_attributes].nil?)
   		redirectError("Please select files to upload")
   		return
   	else
@@ -58,31 +58,45 @@ class UploaderController < ApplicationController
   		 rescue Exception => e  
   		   @bad_files << f[:asset].original_filename + ": " + e.message + "\n"
   		  end
-  		end
-  	end
+      end
+      unless params[:subjects_data].nil?
+        keys = []
+        hashes = []
+        CSV.parse(params[:subjects_data].read, headers: true).each do |row|
+          new_hash = {}
+          row.to_hash.each_pair do |k, v|
+            new_hash.merge!({k => v}) unless k.nil?
+          end
+          unless @subject_ids_map[new_hash['SUBJECT_IDENTIFIER']].nil?
+            subject_id = @subject_ids_map[new_hash['SUBJECT_IDENTIFIER']]
+            keys << subject_id
+            hashes << new_hash
+          end
+        end
+        puts keys
+        puts hashes
+        Subject.update(keys, hashes)
+      end
+    end
   end
   
  private
- def getSubjectID(subjectIdentifier)
+ def getSubjectID(subject_identifier)
    #Check if the subject id was already fetched for a previous task run
-   subject_id = @subject_ids_map[subjectIdentifier]
+   subject_id = @subject_ids_map[subject_identifier]
    
    #Check if the identifier exists in the db
    if((subject_id.nil?))
-      subject = Subject.find(:last,:conditions => ["SUBJECT_IDENTIFIER = ?",subjectIdentifier])
-   
-      #Create a new Subject
-      if(subject.nil?)
-          if(subjectIdentifier.nil?)
+          if(subject_identifier.nil?)
             raise "subjectidentifier is null"
-          end
+         end
           subject = Subject.new
-          subject.SUBJECT_IDENTIFIER = subjectIdentifier
+          subject.SUBJECT_IDENTIFIER = subject_identifier
           subject.save
 	  
-      end
+      # end
       subject_id = subject.SUBJECT_ID
-      @subject_ids_map[subjectIdentifier] = subject.SUBJECT_ID
+      @subject_ids_map[subject_identifier] = subject.SUBJECT_ID
    end
    
    return subject_id

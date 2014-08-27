@@ -44,8 +44,12 @@
 </tr>
  <tr >
   <td colspan=2><%= file_field_tag('ans_files', multiple: true, name: 'item[attached_assets_attributes][][asset]') %></td>
+<tr >
+  <th id="instructions">3. upload subjects' data:</th>
 </tr>
-<tr />
+<tr >
+  <td colspan=2><%= file_field_tag('subjects_data', accept: '.csv') %></td>
+</tr>
 <tr >
     <td id="comment" colspan =3><%= submit_tag("Upload")%> Uploading multiple files may take a while.</td>
 

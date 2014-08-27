@@ -1,0 +1,2 @@
+change everything to /lab
+*change in the db 'Simple RT' name to 'SimpleRT'

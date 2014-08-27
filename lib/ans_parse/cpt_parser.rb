@@ -5,8 +5,7 @@ class CptParser < Parser
 	def initialize
 	end
 
-	def parseTrial(trial_line,task_run)
-		trial = Trial.new
+	def parseTrial(trial, trial_line,task_run)
 		values = trial_line.split(",")
 		#BlockID, StepID, Date, ID,StationID, TargetStatus, TargetID, TargetColor, Accuracy, RT
 		trial.BLOCK_NO = (values[0]=="1" ? 0:1)

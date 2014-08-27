@@ -1,6 +1,6 @@
 require 'utils'
 include Utils
-class ResearchesController < ApplicationController
+class ResearchesController < AdminController
   # GET /researches
   # GET /researches.json
   def index

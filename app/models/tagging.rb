@@ -3,7 +3,7 @@ class Tagging < ActiveRecord::Base
   
   belongs_to :tag, :foreign_key => 'TAG_ID'
   belongs_to :subject, :foreign_key => 'SUBJECT_ID'
-   attr_accessible :SUBJECT_ID, :TAG_ID
+   attr_accessible :SUBJECT_ID, :TAG_ID  ,:value
   
   
 end

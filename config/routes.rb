@@ -25,6 +25,11 @@ Newdb::Application.routes.draw do
 
   match "uploader/loading" => 'uploader#loading'
   
+  get "simple_measures/index"
+  post "simple_measures/index"
+
+  match "simple_measures/loading" => 'simple_measures#loading'
+  
   post "uploader/finished"
   get "uploader/finished"
 
