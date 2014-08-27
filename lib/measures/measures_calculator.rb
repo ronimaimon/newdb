@@ -1,9 +1,9 @@
 require 'measures/sql_measure'
 module MeasuresCalculator
 
-  def self.calculateAllMeasuresForReaserch(research_id, subject_ids=nil)
+  def self.calculateAllMeasuresForResearch(research_id, table_prefix="t",subject_ids=nil)
     measures = MeasureConfig.measureArray
-    sql_m = SQLMeasure.new(research_id, subject_ids)
+    sql_m = SQLMeasure.new(research_id, table_prefix, subject_ids)
     measures.each do |measure|
       sql_m.add_formula!(measure)
     end

@@ -13,7 +13,6 @@ class AnsParser
 	
 	def parse(file_content, filename,is_temp=false)
 		parser = nil
-    puts '***************************************************************************'
     if(is_temp)
       task_run = TempTaskRun.new
      else
@@ -61,7 +60,6 @@ class AnsParser
         if trial.BLOCK_NO != 0
 			    trial_count += 1
         end
-        puts ' ***************************************************************************'
 				task_run.trials.append(trial)
 			end
 		end

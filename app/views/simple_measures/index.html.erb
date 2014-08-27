@@ -1,14 +1,13 @@
 <h1>Upload</h1><br />
 
 <table border=0>
-    <!--%= form_tag(:multipart => true,:name=>"upload_form",:onsubmit=>"return validateForm()") do %-->
-<%= form_tag({:action => :loading}, :multipart => true,:name=>"simple_upload_form") do %>
+<%= form_tag({:action => :loading, :format => :csv},:multipart => true,:name=>"simple_upload_form",) do %>
  <tr >
   <td colspan=2><%= file_field_tag('ans_files', multiple: true, name: 'item[attached_assets_attributes][][asset]') %></td>
 </tr>
 <tr />
 <tr >
-    <td id="upload" colspan =3><%= submit_tag("Upload")%> Uploading multiple files may take a while.</td>
+    <td id="measure" colspan =3><%= submit_tag('Calculate Measures')%> Uploading multiple files may take a while.</td>
 
 </tr>
 <% end %>

@@ -11,7 +11,6 @@ class TempTaskRun < ActiveRecord::Base
 
 
  def trials
-   logger.debug 'in trials'
    temp_trials
  end
 end
