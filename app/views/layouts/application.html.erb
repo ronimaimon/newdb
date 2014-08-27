@@ -19,12 +19,15 @@
 		<div id="menu">
 			<ul>
 				<!--<li class="current_page_item"><a href="#">Homepage</a></li>-->
+				<% if(@username =='admin')%>
 				<li><%= link_to "Upload", uploader_index_path %></li>
 				<li><%= link_to "Measure", measures_index_path %></li>
 				<li><%= link_to "Subjects", subjects_index_path %></li>
 				<li><%= link_to "Manage", researches_path %></li>
-				<li><a href="#">Help</a></li>
-				<!--<li><a href="#">Contact</a></li>-->
+				<% else %>
+				<li><%= link_to "Measures", simple_measures_index_path %></li>
+				<% end %>
+				
 			</ul>
 		</div>
 	</div>

@@ -1,7 +1,7 @@
-require 'ans_parser'
+require 'ans_parse/ans_parser'
 require 'utils'
 include Utils
-class UploaderController < ApplicationController
+class UploaderController < AdminController
   
     
 	def initialize
@@ -15,16 +15,15 @@ class UploaderController < ApplicationController
   end
 
   def loading  
-    
-    researchId = Utils.getRIdFromParams(params)
-    if not researchId.nil? and Research.exists?(researchId)
-      @research = Research.find_by_RESEARCH_ID(researchId) 
+    research_id = Utils.getRIdFromParams(params)
+    if not research_id.nil? and Research.exists?(research_id)
+      @research = Research.find_by_RESEARCH_ID(research_id) 
     elsif params["r"][:name] == ""
       redirectError("Make sure you selected an existing research")
       return
     end  
-    
-  	
+  	 
+  	# Create Research
   	if  @research.nil?
     	@research = Research.new
   		@research.RESEARCH_NAME = params["r"][:name]
@@ -36,11 +35,13 @@ class UploaderController < ApplicationController
   		@research.save
   		
   	end
-    @subject_ids_map =Hash.new
-  	@taskRunCount = 0
+    
+    #Parse and upload task_runs
+    @subject_ids_map = Hash[Subject.find_all_by_SUBJECT_ID(TaskRun.select(:subject_id).uniq.where(research_id:@research.RESEARCH_ID).map(&:subject_id)).map{|s| [s.SUBJECT_IDENTIFIER,s.SUBJECT_ID]}]
+  	@task_run_count = 0
   	@bad_files = ""
-  	@subjectsIdList=[]
-  	if(params[:item].nil? or params[:item][:attached_assets_attributes].nil?)
+  	@subjects_id_list=[]
+  	if((params[:item].nil?) or params[:item][:attached_assets_attributes].nil?)
   		redirectError("Please select files to upload")
   		return
   	else
@@ -50,34 +51,54 @@ class UploaderController < ApplicationController
             task_run.RESEARCH_ID = @research.RESEARCH_ID 
             task_run.SUBJECT_ID = getSubjectID(task_run.SUBJECT_IDENTIFIER)
             task_run.save
-            @subjectsIdList << task_run.SUBJECT_ID
-            @taskRunCount+=1
+            @subjects_id_list << task_run.SUBJECT_ID
+            @task_run_count+=1
      rescue ActiveRecord::RecordNotUnique => er
          @bad_files << f[:asset].original_filename + ": Duplicate file\n"
   		 rescue Exception => e  
   		   @bad_files << f[:asset].original_filename + ": " + e.message + "\n"
   		  end
-  		end
-  	end
+      end
+      unless params[:subjects_data].nil?
+        keys = []
+        hashes = []
+        CSV.parse(params[:subjects_data].read, headers: true).each do |row|
+          new_hash = {}
+          row.to_hash.each_pair do |k, v|
+            new_hash.merge!({k => v}) unless k.nil?
+          end
+          unless @subject_ids_map[new_hash['SUBJECT_IDENTIFIER']].nil?
+            subject_id = @subject_ids_map[new_hash['SUBJECT_IDENTIFIER']]
+            keys << subject_id
+            hashes << new_hash
+          end
+        end
+        puts keys
+        puts hashes
+        Subject.update(keys, hashes)
+      end
+    end
   end
   
  private
- def getSubjectID(subjectIdentifier)
-   subject_id = @subject_ids_map[subjectIdentifier]
+ def getSubjectID(subject_identifier)
+   #Check if the subject id was already fetched for a previous task run
+   subject_id = @subject_ids_map[subject_identifier]
+   
+   #Check if the identifier exists in the db
    if((subject_id.nil?))
-    subject = Subject.find(:last,:conditions => ["SUBJECT_IDENTIFIER = ?",subjectIdentifier])
-    if(subject.nil?)
-      if(subjectIdentifier.nil?)
-        raise "subjectidentifier is null"
-      end
-      subject = Subject.new
-      subject.SUBJECT_IDENTIFIER = subjectIdentifier
-      subject.save
+          if(subject_identifier.nil?)
+            raise "subjectidentifier is null"
+         end
+          subject = Subject.new
+          subject.SUBJECT_IDENTIFIER = subject_identifier
+          subject.save
 	  
-    end
-    subject_id = subject.SUBJECT_ID
-    @subject_ids_map[subjectIdentifier] = subject.SUBJECT_ID
+      # end
+      subject_id = subject.SUBJECT_ID
+      @subject_ids_map[subject_identifier] = subject.SUBJECT_ID
    end
+   
    return subject_id
  end
  

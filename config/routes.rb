@@ -25,15 +25,19 @@ Newdb::Application.routes.draw do
 
   match "uploader/loading" => 'uploader#loading'
   
+  get "simple_measures/index"
+  post "simple_measures/index"
+
+  match "simple_measures/loading" => 'simple_measures#loading'
+  
   post "uploader/finished"
   get "uploader/finished"
 
   get "subjects/index"
   get "subjects/summary"
+  get "subjects/create_new"
   get 'subjects/subjects-bulk-update' => 'subjects#bulk_update', :as => 'subject_bulk_update'
   post 'subjects/subjects-bulk-update-save' => 'subjects#bulk_update_save', :as => 'subjects_bulk_update_save'
-  # The priority is based upon order of creation:
-  # first created -> highest priority.
 
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'

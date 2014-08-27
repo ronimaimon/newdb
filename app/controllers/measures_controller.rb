@@ -1,33 +1,26 @@
-require 'sql_measure'
+require 'measures/sql_measure'
 require 'measures/measures_calculator'
-class MeasuresController < ApplicationController
-  include MeasuresCalculator
-  
-  # def initialize
-    # #
-  # end
+require 'utils'
+include Utils
+include MeasuresCalculator
+class MeasuresController < ApplicationController 
   
   def index
-    
+        @measures = MeasureConfig.presentationArray
+ 
   end
 
   def measure
     @measures = MeasureConfig.measureArray
     @subject_ids = nil # this feature is currently not in use
 	
-	#replace with Utils.getRIdFromParams
- 	@research_id = (params["r_e_id"])
-	if (@research_id.nil? or @research_id.empty? )
-		name_id = params["r_e_name"].split(":")
-		@research_id = (params["r_e_name"].split(":")[1])  if (name_id.size ==2)
-	end
-      #@subject_ids = params[:subject_ids].delete(" ").split(",") if params[:subject_ids] != ""
+    research_id = Utils.getRIdFromParams(params)
 
-	  if (@research_id)
+	  if (research_id)
 	     
-      @result = MeasuresCalculator.calculateAllMeasuresForReaserch(@research_id,nil)
+      @result = MeasuresCalculator.calculateAllMeasuresForResearch(research_id,"t")
     
-		if @result.first
+		  if @result.first
 			respond_to do |format|
 				format.html
 				format.csv do #{ render :layout => false }

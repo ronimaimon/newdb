@@ -169,8 +169,8 @@ DELETE FROM `trialdb`.`t_age_groups` WHERE `AGE_GROUP_ID`='12';
 UPDATE `trialdb`.`t_age_groups` SET `NAME`='ט-יב**' WHERE `AGE_GROUP_ID`='13';
 	
 	
-UPDATE `trialdb2`.`t_tasks` SET `TASK_NAME`='PosnerTemporalCue' WHERE `TASK_ID`='5';
-UPDATE `trialdb2`.`t_tasks` SET `TASK_NAME`='SimpleRT' WHERE `TASK_ID`='8';
+UPDATE `trialdb`.`t_tasks` SET `TASK_NAME`='PosnerTemporalCue' WHERE `TASK_ID`='5';
+UPDATE `trialdb`.`t_tasks` SET `TASK_NAME`='SimpleRT' WHERE `TASK_ID`='8';
 
 INSERT INTO `t_norm_groups` VALUES (1,'adult-jews');
 

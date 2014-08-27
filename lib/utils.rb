@@ -1,6 +1,7 @@
 module Utils
   
-  def getRIdFromParams(params)
+  # Return the r_id from the params where there is use of the generic form: shared/_research
+  def self.getRIdFromParams(params)
     if not params["r_e_id"] and not params["r_e_name"]
       return nil
     end

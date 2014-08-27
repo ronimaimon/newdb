@@ -1,4 +1,4 @@
-class TaskRunsController < ApplicationController
+class TaskRunsController < AdminController
 
   def destroy
     

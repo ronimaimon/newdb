@@ -1,4 +1,4 @@
-require 'sql_measure'
+require 'measures/sql_measure'
 
 module MeasureConfig
   
