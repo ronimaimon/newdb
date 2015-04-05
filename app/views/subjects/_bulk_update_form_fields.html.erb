@@ -26,7 +26,5 @@
     <td>
     <%= f.text_field :tag_list, :class => "token_input tag", "data-url" => "utils/taglist.json", "data-pre" => subject.tag_list.split(",").collect{|t| {:id => t, :name => t }}.to_json %>
   </td>
-  <td>
-  	 <td><b><%= link_to 'Create New', subjects_create_new_path(:research_id => @research_id, :subject_id => subject.SUBJECT_ID,:subject_identifier =>subject.SUBJECT_IDENTIFIER) ,data: { confirm: 'Are you sure?' }%></b></td> 
-  </td>
+
 </tr>
