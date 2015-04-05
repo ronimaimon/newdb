@@ -33,7 +33,6 @@ class UploaderController < AdminController
   		@research.RESEARCH_COMPUTER_ID = params["r"][:comp]
   		@research.RESEARCH_COMPUTER_SIZE = params["r"][:comp_size]
   		@research.save
-  		
   	end
     
     #Parse and upload task_runs
@@ -59,35 +58,47 @@ class UploaderController < AdminController
   		   @bad_files << f[:asset].original_filename + ": " + e.message + "\n"
   		  end
       end
-      unless params[:subjects_data].nil?
-        keys = []
-        hashes = []
-        CSV.parse(params[:subjects_data].read, headers: true).each do |row|
-          new_hash = {}
-          row.to_hash.each_pair do |k, v|
-            new_hash.merge!({k => v}) unless k.nil?
-          end
-          unless @subject_ids_map[new_hash['SUBJECT_IDENTIFIER']].nil?
-            subject_id = @subject_ids_map[new_hash['SUBJECT_IDENTIFIER']]
-            keys << subject_id
-            hashes << new_hash
+      parseSubjectsData()
+      puts @subject_ids_map
+      unless params[:subjects_tags].nil?
+        tags={}
+        CSV.parse(params[:subjects_tags].read, headers: true).each do |row|
+          unless @subject_ids_map[row.fields[0]].nil?
+            tags[@subject_ids_map[row.fields[0]]] = Hash["tag_list",Hash[row.headers[1..-1].zip(row.fields[1..-1])]]
           end
         end
-        puts keys
-        puts hashes
-        Subject.update(keys, hashes)
+        Subject.update(tags.keys, tags.values)
       end
     end
   end
-  
- private
+
+  def parseSubjectsData
+    unless params[:subjects_data].nil?
+      keys = []
+      hashes = []
+      CSV.parse(params[:subjects_data].read, headers: true).each do |row|
+        new_hash = {}
+        row.to_hash.each_pair do |k, v|
+          new_hash.merge!({k => v}) unless k.nil?
+        end
+        unless @subject_ids_map[new_hash['SUBJECT_IDENTIFIER']].nil?
+          subject_id = @subject_ids_map[new_hash['SUBJECT_IDENTIFIER']]
+          keys << subject_id
+          hashes << new_hash
+        end
+      end
+      Subject.update(keys, hashes)
+    end
+  end
+
+  private
  def getSubjectID(subject_identifier)
    #Check if the subject id was already fetched for a previous task run
    subject_id = @subject_ids_map[subject_identifier]
    
    #Check if the identifier exists in the db
-   if((subject_id.nil?))
-          if(subject_identifier.nil?)
+   if subject_id.nil?
+          if subject_identifier.nil?
             raise "subjectidentifier is null"
          end
           subject = Subject.new

@@ -1,59 +1,65 @@
-<h1>Upload</h1><br />
+<h1>Upload</h1><br/>
 
 <table border=0>
-    <!--%= form_tag(:multipart => true,:name=>"upload_form",:onsubmit=>"return validateForm()") do %-->
-<%= form_tag({:action => :loading}, :multipart => true,:name=>"upload_form",:onsubmit=>"return validateForm()") do %>
-<tr> 
-	<th id="instructions"> 1. Add to an existing research:</th>
-</tr>
-<%= render "shared/research" %>
-	<th colspan="1"> OR </th>
-	<th/>
-</tr>
-<tr >
-  <th id="instructions">Create a new research:</th>
-</tr>
-<tr>
-  <td><%= label_tag(:new_r_name, "Research Name*:") %></td>
-  <td><%= text_field_tag "r[name]" %></td>
-</tr>
-<tr>
-  <td><%= label_tag(:r_owner, "Research Owner*:") %></td>
-  <td><%= text_field_tag("r[owner]") %></td>
-</tr>
-<tr>
-  <td><%= label_tag(:r_desc, "Research Description:") %></td>
-  <td><%= text_field_tag("r[desc]") %></td>
-</tr>
-<tr>
-	<td><%= label_tag(:r_loc, "Research Location*:") %></td>
-	<td><%= select("r","loc",ResearchLocation.all.collect {|p| [ p.LOCATION_NAME, p.RESEARCH_LOCATION_ID]},{ :include_blank => false ,:selected => :option })  %></td>
-</tr>
-<tr>
-	<td><%= label_tag(:r_comp, "Computer type*:") %></td>
-	<td><%= select("r","comp",ResearchComputer.all.collect {|p| [ p.COMPUTER_DESC, p.RESEARCH_COMPUTER_ID] },{ :include_blank => false,:selected => :option })  %></td>
-</tr>
-<tr>
-	<td><%= label_tag(:r_comp_size, "Computer Size in inch:") %></td>
-	<td><%= number_field_tag("r[comp_size]")  %></td>
-</tr>
-<tr />
-<tr >
-<tr >
-  <th id="instructions">2. Select .ans files:</th>
-</tr>
- <tr >
-  <td colspan=2><%= file_field_tag('ans_files', multiple: true, name: 'item[attached_assets_attributes][][asset]') %></td>
-<tr >
-  <th id="instructions">3. upload subjects' data:</th>
-</tr>
-<tr >
-  <td colspan=2><%= file_field_tag('subjects_data', accept: '.csv') %></td>
-</tr>
-<tr >
-    <td id="comment" colspan =3><%= submit_tag("Upload")%> Uploading multiple files may take a while.</td>
+  <!--%= form_tag(:multipart => true,:name=>"upload_form",:onsubmit=>"return validateForm()") do %-->
+  <%= form_tag({:action => :loading}, :multipart => true, :name => "upload_form", :onsubmit => "return validateForm()") do %>
+      <tr>
+        <th id="instructions"> 1. Add to an existing research:</th>
+      </tr>
+      <%= render "shared/research" %>
+      <th colspan="1"> OR</th>
+      <th/>
+      </tr>
+      <tr>
+        <th id="instructions">Create a new research:</th>
+      </tr>
+      <tr>
+        <td><%= label_tag(:new_r_name, "Research Name*:") %></td>
+        <td><%= text_field_tag "r[name]" %></td>
+      </tr>
+      <tr>
+        <td><%= label_tag(:r_owner, "Research Owner*:") %></td>
+        <td><%= text_field_tag("r[owner]") %></td>
+      </tr>
+      <tr>
+        <td><%= label_tag(:r_desc, "Research Description:") %></td>
+        <td><%= text_field_tag("r[desc]") %></td>
+      </tr>
+      <tr>
+        <td><%= label_tag(:r_loc, "Research Location*:") %></td>
+        <td><%= select("r", "loc", ResearchLocation.all.collect { |p| [p.LOCATION_NAME, p.RESEARCH_LOCATION_ID] }, {:include_blank => false, :selected => :option}) %></td>
+      </tr>
+      <tr>
+        <td><%= label_tag(:r_comp, "Computer type*:") %></td>
+        <td><%= select("r", "comp", ResearchComputer.all.collect { |p| [p.COMPUTER_DESC, p.RESEARCH_COMPUTER_ID] }, {:include_blank => false, :selected => :option}) %></td>
+      </tr>
+      <tr>
+        <td><%= label_tag(:r_comp_size, "Computer Size in inch:") %></td>
+        <td><%= number_field_tag("r[comp_size]") %></td>
+      </tr>
+      <tr/>
+      <tr>
+      <tr>
+        <th id="instructions">2. Select .ans files:</th>
+      </tr>
+      <tr>
+        <td colspan=2><%= file_field_tag('ans_files', multiple: true, name: 'item[attached_assets_attributes][][asset]') %></td>
+      <tr>
+        <th id="instructions">3.1. upload subjects' data:</th>
+      </tr>
+      <tr>
+        <td colspan=2><%= file_field_tag('subjects_data', accept: '.csv') %></td>
+      </tr>
+      <tr>
+        <th id="instructions">3.2. Tags file:</th>
+      </tr>
+      <tr>
+        <td colspan=2><%= file_field_tag('subjects_tags', accept: '.csv') %></td>
+      </tr>
+      <tr>
+        <td id="comment" colspan=3><%= submit_tag('Upload') %> Uploading multiple files may take a while.</td>
 
-</tr>
-<% end %>
+      </tr>
+  <% end %>
 
- </table>
+</table>

@@ -20,17 +20,15 @@ class Subject < ActiveRecord::Base
     tags.reload.map{|n| n.value.nil? ? n.NAME: n.NAME+'='+ n.value}.join(", ")
   end
 
- def tag_list=(names)
+ def tag_list=(tag_map)
    self.tags.destroy_all
-   unless names.nil?
-     names.split(",").map do |n|
-       if n.include?('=')
-         tag_name, tag_value = n.split('=')
+   puts "Tags"
+   unless tag_map.nil?
+     tag_map.each do |tag_name,tag_value|
+       puts "#{tag_name},#{tag_value}"
+       if tag_value != nil
          tag = Tag.where(NAME: tag_name.strip).first_or_create!
          self.taggings.create(TAG_ID: tag.TAG_ID, value: tag_value.strip)
-       else
-         tag = Tag.where(NAME: n.strip).first_or_create!
-         self.taggings.create(TAG_ID: tag.TAG_ID)
        end
      end
    end
