@@ -2,7 +2,7 @@
 function validateForm()
 {
 	
-	if (!validateField("ans_files"))
+	if (!validateField("ans_files") && !validateField("subjects_data") && !validateField("subjects_tags"))
 		{
 		alert("Please select files to upload");
 		return false;
