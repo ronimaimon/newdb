@@ -2,25 +2,42 @@
 <br/>
 <%= render 'form' %>
 
+
+<h4>Merge Subjects</h4>
+<%= form_tag('/task_runs/move', method: :get) do%>
+    <%= hidden_field_tag 'r_id', @research.RESEARCH_ID %>
+    <div>Please enter DB Identifiers seperated by commas</div>
+    <div style="padding-bottom:10px;">
+      <%= text_field_tag 'ids'%></div>
+    <div><%= submit_tag 'Merge' %></div>
+<% end%>
+
+   <br/>
 <div style="padding-left:10px;">
-	
-	<h3>Task Runs</h3>
-	<table>
-		<tr>
-			<td> Identifier </td>
-			<td> Task </td>
-			<td/>
-		</tr>
-  	<% @research.task_runs.each do |task_run| %>
-  	<tr>
-  	 <td><%= task_run.subject.SUBJECT_IDENTIFIER %> </td>
-  	 <td> <%= task_run.task.TASK_NAME %> </td>
-     <td><b><%= link_to 'Delete', task_run, method: :delete, data: { confirm: 'Are you sure?' } %></b></td> 
-  	</tr>
-	<% end %>
-</table>
-  	
-  </div>
+
+  <h3>Task Runs</h3>
+  <table>
+    <tr>
+      <td> DB Identifier</td>
+      <td> Identifier</td>
+      <td> Task</td>
+      <td/>
+    </tr>
+    <% @research.task_runs.each do |task_run| %>
+        <tr>
+          <td><%= task_run.SUBJECT_ID %> </td>
+          <td><%= task_run.subject.SUBJECT_IDENTIFIER %> </td>
+          <td> <%= task_run.task.TASK_NAME %> </td>
+          <td><b><%= link_to 'Delete', task_run, method: :delete, data: {confirm: 'Are you sure?'} %></b></td>
+          <td>
+
+          </td>
+
+        </tr>
+    <% end %>
+  </table>
+
+</div>
 
 <br/>
 <%= link_to 'Show', @research %> |

@@ -2,7 +2,8 @@ Newdb::Application.routes.draw do
 
   resources :researches
     resources :task_runs, :only => [ :destroy]
-   
+  get "task_runs/move"
+
   get "utils/getvalue" 
   get "utils/tags" => "utils#tags", :as => :tags
 
