@@ -24,7 +24,7 @@
     <%= f.check_box :CONTROL , :class => "control"%>
   </td>
     <td>
-    <%= f.text_field :tag_list, :class => "token_input tag", "data-url" => "utils/taglist.json", "data-pre" => subject.tag_list.split(",").collect{|t| {:id => t, :name => t }}.to_json %>
+    <%= f.text_field :tag_string, :class => "token_input tag", "data-url" => "utils/taglist.json", "data-pre" => subject.tag_string.split(',').collect{|t| {:id => t, :name => t }}.to_json %>
   </td>
 
 </tr>
