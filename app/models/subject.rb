@@ -16,9 +16,10 @@ class Subject < ActiveRecord::Base
       joins(:taggings).group("taggings.TAG_ID")
   end
   
-  def tag_list
-    tags.reload.map{|n| n.value.nil? ? n.NAME: n.NAME+'='+ n.value}.join(", ")
+  def tag_string
+    tags.reload.map{|n| n.value.nil? ? n.NAME: n.NAME+'='+ n.value}.join(',')
   end
+
 
  def tag_list=(tag_map)
    self.tags.destroy_all
@@ -33,4 +34,17 @@ class Subject < ActiveRecord::Base
      end
    end
  end
+
+   def tag_string=(tag_string)
+     self.tags.destroy_all
+     unless tag_string.nil?
+       tag_string.split(',').each do | pair|
+          tag_name, tag_value = pair.split(/=/)
+          if tag_value != nil
+            tag = Tag.where(NAME: tag_name.strip).first_or_create!
+            self.taggings.create(TAG_ID: tag.TAG_ID, value: tag_value.strip)
+          end
+       end
+     end
+   end
 end
